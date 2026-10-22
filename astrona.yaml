@@ -1,0 +1,383 @@
+# Course manifest for ATS089 - Realm Administration & Identity Management (Keycloak).
+#
+# One entry per section under `modules:`. Each section lists, in order: its
+# README, then for each module the landing page (course.md), its parts
+# (course-0N-*.md), and right after the part a lab tests, the lab's
+# question.md reading and the `type: lab` entry. The module's summary page
+# comes last. The section capstone closes the section. Playgrounds are not
+# listed: the landing page's playground marker shows them. solution.md is
+# never listed.
+#
+# Every `path:` is relative to this file.
+
+training:
+  id: ATS089
+  title: "Keycloak: Realm Administration & Identity Management"
+  maturity: draft
+  description: >
+    Training material covering the Realm Administration & Identity
+    Management domain of the Keycloak training path: the user lifecycle and
+    the declarative user profile, credentials and required actions, groups
+    and impersonation, realm roles, client roles, composite and default
+    roles and how they reach a token, authentication flows, password and OTP
+    policies, conditional OTP, WebAuthn and passkeys, LDAP user federation
+    and the User Storage SPI, and identity brokering with an OpenID Connect
+    identity provider. Each module pairs a layered reader with an ungraded
+    hands-on playground and a graded practice lab. Each section closes with
+    an integration capstone.
+    Written for Keycloak 26.8.1.
+
+  certification:
+    name: Keycloak
+    code: KEYCLOAK
+    provider: Astrona
+    domain: Realm Administration & Identity Management
+    weight: 20
+
+modules:
+
+  - id: module-intro
+    title: "Introduction"
+    description: >
+      Start here. What this course trains you to do, how it is laid out, how
+      to get your machine ready with the astrona command-line tool, how the
+      content is written and checked, who maintains it, and how to report a
+      mistake.
+
+    content:
+      - type: reading
+        title: Introduction
+        path: sections/intro/README.md
+      - type: reading
+        title: "Welcome To The Course"
+        path: sections/intro/course-01-welcome.md
+      - type: reading
+        title: "Get Your Machine Ready"
+        path: sections/intro/course-02-get-your-machine-ready.md
+      - type: reading
+        title: "How This Course Is Made"
+        path: sections/intro/course-03-how-this-course-is-made.md
+
+  - id: module-010
+    title: "Users And The User Lifecycle"
+    description: >
+      Users from creation to removal: the declarative user profile and its
+      required attributes, passwords and temporary passwords, required
+      actions, groups, disabling a user and ending their sessions, and
+      administrator impersonation.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-010/README.md
+
+      - type: reading
+        title: "Manage Users Through Their Whole Lifecycle"
+        path: sections/section-010/module-01/course.md
+      - type: reading
+        title: "Users And The Declarative User Profile"
+        path: sections/section-010/module-01/course-01-users-and-the-user-profile.md
+      - type: reading
+        title: "Credentials, Temporary Passwords And Required Actions"
+        path: sections/section-010/module-01/course-02-credentials-and-required-actions.md
+      - type: reading
+        title: Question
+        path: sections/section-010/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Get Three Users Signed In Again Lab"
+        path: sections/section-010/module-01/labs/lab-01
+        difficulty: beginner
+        estimated_duration: 20m
+        topic: users
+        task_kind: troubleshooting
+        tags: [users, user-profile, required-actions, temporary-password, password-grant, kcadm]
+        learning_goals:
+          - Read why a user cannot get a token from the token endpoint's error and the user's settings
+          - Fix a disabled user, a pending required action and an incomplete profile without recreating anyone
+          - Prove each fix with a token for each user
+        resources:
+          - name: "Server Administration Guide: managing users"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#assembly-managing-users_server_administration_guide
+          - name: "Server Administration Guide: user profile"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#user-profile
+          - name: "Server Administration Guide: required actions"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#con-required-actions_server_administration_guide
+      - type: reading
+        title: "Groups, Disabling Users And Impersonation"
+        path: sections/section-010/module-01/course-03-groups-and-impersonation.md
+      - type: reading
+        title: Summary
+        path: sections/section-010/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-010/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Onboard And Offboard Users With kcadm.sh Capstone"
+        path: sections/section-010/capstone/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 30m
+        topic: users
+        task_kind: build
+        tags: [users, groups, temporary-password, required-actions, user-sessions, kcadm]
+        learning_goals:
+          - Create users with a complete profile, a temporary password and group membership from the terminal
+          - Offboard a user by disabling them, removing their group and ending their sessions, without deleting them
+          - Prove that the new users must change their password and the old user can no longer get a token
+        resources:
+          - name: "Server Administration Guide: managing users"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#assembly-managing-users_server_administration_guide
+          - name: "Server Administration Guide: groups"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#proc-managing-groups_server_administration_guide
+          - name: "Server Administration Guide: Admin CLI"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#admin-cli
+
+  - id: module-020
+    title: "Roles, Composite Roles And Groups"
+    description: >
+      Realm roles and client roles, composite roles and the default roles of a
+      realm, mapping roles to groups so members inherit them, and how the roles
+      a user holds end up in the realm_access and resource_access claims of an
+      access token.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-020/README.md
+
+      - type: reading
+        title: "Model Access With Roles, Composite Roles And Groups"
+        path: sections/section-020/module-01/course.md
+      - type: reading
+        title: "Realm Roles And Client Roles"
+        path: sections/section-020/module-01/course-01-realm-roles-and-client-roles.md
+      - type: reading
+        title: "Composite Roles And Default Roles"
+        path: sections/section-020/module-01/course-02-composite-roles-and-default-roles.md
+      - type: reading
+        title: "Group Role Mappings And Roles In Tokens"
+        path: sections/section-020/module-01/course-03-groups-and-roles-in-tokens.md
+      - type: reading
+        title: Question
+        path: sections/section-020/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Give A Group The Roles Its Members Need Lab"
+        path: sections/section-020/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 20m
+        topic: roles
+        task_kind: build
+        tags: [realm-roles, client-roles, composite-roles, groups, role-mappings, token-claims]
+        learning_goals:
+          - Build a composite realm role from the client roles of an API
+          - Map the composite role to a group and add a user to it, with no role mapped to the user directly
+          - Prove the result with the realm_access and resource_access claims of the user's access token
+        resources:
+          - name: "Server Administration Guide: roles and groups"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#assigning-permissions-using-roles-and-groups
+          - name: "Server Administration Guide: composite roles"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#con-composite-roles_server_administration_guide
+      - type: reading
+        title: Summary
+        path: sections/section-020/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-020/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Repair A Broken Role Model Capstone"
+        path: sections/section-020/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 35m
+        topic: roles
+        task_kind: troubleshooting
+        tags: [composite-roles, groups, role-mappings, client-scopes, token-claims, client-roles]
+        learning_goals:
+          - Find why roles are missing from or wrong in an access token by reading role mappings and client scopes
+          - Repair a composite role, a group mapping and a client's default client scopes without recreating them
+          - Prove the result with the exact roles in two users' access tokens
+        resources:
+          - name: "Server Administration Guide: client scopes"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_client_scopes
+          - name: "Server Administration Guide: roles and groups"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#assigning-permissions-using-roles-and-groups
+
+  - id: module-030
+    title: "Authentication Flows, MFA And Passkeys"
+    description: >
+      How Keycloak signs a user in: authentication flows, executions and their
+      requirements, the password policy, one-time passwords and a conditional
+      OTP step for one role, and WebAuthn passkeys with the passwordless
+      policy and its required action.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-030/README.md
+
+      - type: reading
+        title: "Control How Users Sign In With Flows, OTP And Passkeys"
+        path: sections/section-030/module-01/course.md
+      - type: reading
+        title: "Authentication Flows, Executions And Requirements"
+        path: sections/section-030/module-01/course-01-authentication-flows.md
+      - type: reading
+        title: "Password Policy And One-Time Passwords"
+        path: sections/section-030/module-01/course-02-password-policy-and-otp.md
+      - type: reading
+        title: Question
+        path: sections/section-030/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Enforce A Password Policy And Conditional OTP Lab"
+        path: sections/section-030/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 30m
+        topic: mfa
+        task_kind: build
+        tags: [password-policy, authentication-flows, executions, conditional-otp, otp-policy, kcadm]
+        learning_goals:
+          - Set a password policy and prove that it refuses a weak password
+          - Copy the browser flow and require OTP only for users with the role stock-admin
+          - Bind the new flow as the realm's browser flow without locking other users out
+        resources:
+          - name: "Server Administration Guide: password policies"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_password-policies
+          - name: "Server Administration Guide: authentication flows"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_authentication-flows
+          - name: "Server Administration Guide: conditions in conditional flows"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#conditions-in-conditional-flows
+      - type: reading
+        title: "WebAuthn And Passkeys"
+        path: sections/section-030/module-01/course-03-webauthn-and-passkeys.md
+      - type: reading
+        title: Summary
+        path: sections/section-030/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-030/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Require A Second Factor For Administrators Capstone"
+        path: sections/section-030/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 35m
+        topic: authentication
+        task_kind: troubleshooting
+        tags: [authentication-flows, executions, conditional-otp, otp-policy, webauthn, passkeys]
+        learning_goals:
+          - Find why a conditional OTP step and passkey registration do not work from the flow and the required actions
+          - Fix the flow, the required actions and the passwordless policy without unbinding the flow
+          - Prove that ordinary users still sign in and the second-factor settings read back as required
+        resources:
+          - name: "Server Administration Guide: WebAuthn"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#webauthn_server_administration_guide
+          - name: "Server Administration Guide: OTP policies"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#one-time-password-otp-policies
+          - name: "Server Administration Guide: authentication flows"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_authentication-flows
+
+  - id: module-040
+    title: "User Federation And Identity Brokering"
+    description: >
+      Users who live outside Keycloak: LDAP user federation with OpenLDAP,
+      the User Storage SPI it implements, edit modes, mappers and
+      synchronization, and identity brokering, where a second realm acts as
+      an OpenID Connect identity provider with mappers and the first broker
+      login flow.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-040/README.md
+
+      - type: reading
+        title: "Federate Users From An LDAP Directory"
+        path: sections/section-040/module-01/course.md
+      - type: reading
+        title: "LDAP Federation And The User Storage SPI"
+        path: sections/section-040/module-01/course-01-ldap-federation-and-the-user-storage-spi.md
+      - type: reading
+        title: "Connecting Keycloak To OpenLDAP"
+        path: sections/section-040/module-01/course-02-connecting-openldap.md
+      - type: reading
+        title: Question
+        path: sections/section-040/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Federate An LDAP Directory Lab"
+        path: sections/section-040/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: federation
+        task_kind: build
+        tags: [ldap, user-federation, edit-mode, ldap-sync, password-grant, kcadm]
+        learning_goals:
+          - Create a read-only LDAP user federation provider with kcadm.sh
+          - Synchronize the directory and confirm the users are linked to the provider
+          - Prove the federation with a token for a user whose password lives only in LDAP
+        resources:
+          - name: "Server Administration Guide: LDAP and Active Directory"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_ldap
+          - name: "Server Administration Guide: user storage federation"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_user-storage-federation
+      - type: reading
+        title: "Edit Modes, Mappers And Synchronization"
+        path: sections/section-040/module-01/course-03-edit-modes-mappers-and-sync.md
+      - type: reading
+        title: Summary
+        path: sections/section-040/module-01/course-04-summary.md
+
+      - type: reading
+        title: "Sign Users In Through Another Identity Provider"
+        path: sections/section-040/module-02/course.md
+      - type: reading
+        title: "Identity Brokering And Social Login"
+        path: sections/section-040/module-02/course-01-identity-brokering.md
+      - type: reading
+        title: "Adding An OpenID Connect Identity Provider"
+        path: sections/section-040/module-02/course-02-adding-an-oidc-identity-provider.md
+      - type: reading
+        title: Question
+        path: sections/section-040/module-02/labs/lab-01/question.md
+      - type: lab
+        title: "Broker Sign-In From A Partner Realm Lab"
+        path: sections/section-040/module-02/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 30m
+        topic: brokering
+        task_kind: build
+        tags: [identity-brokering, oidc-identity-provider, idp-mappers, first-broker-login, kcadm]
+        learning_goals:
+          - Register a client in the partner realm and add that realm as an OpenID Connect identity provider of inventory
+          - Add an identity provider mapper that gives every brokered user a realm role
+          - Prove the setup with the provider's settings and its button on the inventory sign-in page
+        resources:
+          - name: "Server Administration Guide: identity brokering"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_identity_broker
+          - name: "Server Administration Guide: OpenID Connect v1.0 identity providers"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_identity_broker_oidc
+          - name: "Server Administration Guide: first login flow"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_identity_broker_first_login
+      - type: reading
+        title: Summary
+        path: sections/section-040/module-02/course-03-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-040/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Fix A Federation That Lost Its Users Capstone"
+        path: sections/section-040/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 35m
+        topic: federation
+        task_kind: troubleshooting
+        tags: [ldap, user-federation, ldap-mappers, ldap-sync, edit-mode, password-grant]
+        learning_goals:
+          - Find why LDAP users cannot sign in from the provider's settings and a connection test
+          - Fix the bind credential and the users DN, and add a group mapper, without deleting the provider
+          - Prove that both LDAP users get tokens and the LDAP group shows up in Keycloak with its member
+        resources:
+          - name: "Server Administration Guide: LDAP and Active Directory"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_ldap
+          - name: "Server Administration Guide: LDAP mappers"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_ldap_mappers

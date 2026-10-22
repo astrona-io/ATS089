@@ -1,0 +1,55 @@
+# Require A Second Factor For Administrators
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-capstone-030"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1 and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-capstone-030-setup"
+      description: "Builds the stock-admin OTP flow, then breaks it: the conditional subflow is DISABLED, CONFIGURE_TOTP and passkey registration are disabled, and passwordless user verification is discouraged"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-flow"
+      description: "Confirms browser-stock-admin-otp is the original flow, bound, with an active conditional OTP subflow for stock-admin"
+      type: "file"
+      source: "validation/validate-flow.sh"
+    - name: "validate-required-actions"
+      description: "Confirms CONFIGURE_TOTP and webauthn-register-passwordless are enabled"
+      type: "file"
+      source: "validation/validate-required-actions.sh"
+    - name: "validate-passkey-policy"
+      description: "Confirms the passwordless WebAuthn policy requires user verification"
+      type: "file"
+      source: "validation/validate-passkey-policy.sh"
+    - name: "validate-users-sign-in"
+      description: "Confirms alice and bob still get tokens with the password grant"
+      type: "file"
+      source: "validation/validate-users-sign-in.sh"
+
+teardown:
+  keepCluster: false

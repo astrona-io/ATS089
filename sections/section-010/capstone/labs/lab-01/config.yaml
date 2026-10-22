@@ -1,0 +1,51 @@
+# Onboard And Offboard Users With kcadm.sh
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-capstone-010"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1 and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-capstone-010-setup"
+      description: "Creates the realm inventory, the group warehouse with alice and mallory as members, and two open sessions for mallory"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-new-users"
+      description: "Confirms erin and frank exist with the right profile, a temporary password and the group warehouse"
+      type: "file"
+      source: "validation/validate-new-users.sh"
+    - name: "validate-mallory-offboarded"
+      description: "Confirms mallory still exists but is disabled, outside warehouse, with no sessions and no tokens"
+      type: "file"
+      source: "validation/validate-mallory-offboarded.sh"
+    - name: "validate-alice-kept"
+      description: "Confirms alice is unchanged: same user, still in warehouse, still gets a token"
+      type: "file"
+      source: "validation/validate-alice-kept.sh"
+
+teardown:
+  keepCluster: false

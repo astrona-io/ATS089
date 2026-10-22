@@ -1,0 +1,55 @@
+# Repair A Broken Role Model
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-capstone-020"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1 and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-capstone-020-setup"
+      description: "Creates the role model with three faults: warehouse-clerk without stock-write, auditors with stock-write, and inventory-cli without the roles client scope"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-alice-token"
+      description: "Confirms alice's access token carries warehouse-clerk, stock-read and stock-write"
+      type: "file"
+      source: "validation/validate-alice-token.sh"
+    - name: "validate-bob-token"
+      description: "Confirms bob's access token carries stock-read and not stock-write for inventory-api"
+      type: "file"
+      source: "validation/validate-bob-token.sh"
+    - name: "validate-client-scope"
+      description: "Confirms roles is a default client scope of inventory-cli again"
+      type: "file"
+      source: "validation/validate-client-scope.sh"
+    - name: "validate-objects-kept"
+      description: "Confirms the groups and the role are the originals and no role is mapped to a user directly"
+      type: "file"
+      source: "validation/validate-objects-kept.sh"
+
+teardown:
+  keepCluster: false

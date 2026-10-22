@@ -1,0 +1,51 @@
+# Enforce A Password Policy And Conditional OTP
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-lab-030-01"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1 and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-lab-030-01-setup"
+      description: "Creates the realm inventory with alice, inventory-cli, the realm role stock-admin and bob, with no password policy and the built-in browser flow"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-password-policy"
+      description: "Confirms the realm's password policy refuses a short password and accepts a long one with a digit"
+      type: "file"
+      source: "validation/validate-password-policy.sh"
+    - name: "validate-conditional-otp"
+      description: "Confirms browser-stock-admin-otp asks for OTP only for stock-admin and is the realm's browser flow"
+      type: "file"
+      source: "validation/validate-conditional-otp.sh"
+    - name: "validate-users-sign-in"
+      description: "Confirms alice and bob still get tokens with the password grant"
+      type: "file"
+      source: "validation/validate-users-sign-in.sh"
+
+teardown:
+  keepCluster: false

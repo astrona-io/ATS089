@@ -1,0 +1,51 @@
+# Get Three Users Signed In Again
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-lab-010-01"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1 and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-lab-010-01-setup"
+      description: "Creates the realm inventory with three users who cannot sign in: bob with a temporary password, carol disabled, dave without a last name"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-users-get-tokens"
+      description: "Confirms bob, carol and dave each get an access token through inventory-cli"
+      type: "file"
+      source: "validation/validate-users-get-tokens.sh"
+    - name: "validate-users-kept"
+      description: "Confirms bob, carol and dave are the same users as at the start"
+      type: "file"
+      source: "validation/validate-users-kept.sh"
+    - name: "validate-profile-kept"
+      description: "Confirms the user profile still requires a last name and VERIFY_PROFILE is still enabled"
+      type: "file"
+      source: "validation/validate-profile-kept.sh"
+
+teardown:
+  keepCluster: false

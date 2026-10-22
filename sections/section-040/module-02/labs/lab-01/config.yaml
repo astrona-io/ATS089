@@ -1,0 +1,55 @@
+# Broker Sign-In From A Partner Realm
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-lab-040-02"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1 and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-lab-040-02-setup"
+      description: "Creates the realms inventory and partner, the users alice and pat, the client inventory-web and the realm role partner-user"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-broker-client"
+      description: "Confirms inventory-broker in partner is confidential, uses the standard flow, the broker redirect URI and the given secret"
+      type: "file"
+      source: "validation/validate-broker-client.sh"
+    - name: "validate-identity-provider"
+      description: "Confirms inventory has the OpenID Connect identity provider partner with the partner realm's endpoints"
+      type: "file"
+      source: "validation/validate-identity-provider.sh"
+    - name: "validate-idp-mapper"
+      description: "Confirms a hardcoded role mapper gives brokered users the realm role partner-user"
+      type: "file"
+      source: "validation/validate-idp-mapper.sh"
+    - name: "validate-login-page"
+      description: "Confirms the inventory sign-in page offers the partner identity provider"
+      type: "file"
+      source: "validation/validate-login-page.sh"
+
+teardown:
+  keepCluster: false

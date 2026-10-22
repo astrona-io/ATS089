@@ -1,0 +1,222 @@
+# Starting workloads for the federationcapstone-demo namespace: one Keycloak 26.8.1 pod
+# in development mode and a tester client pod with curl and jq.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: federationcapstone-demo
+---
+# Bootstrap administrator for the master realm. Lab-only credentials.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: keycloak-admin
+  namespace: federationcapstone-demo
+type: Opaque
+stringData:
+  username: admin
+  password: admin
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: federationcapstone-demo
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:26.8.1
+          args: ["start-dev"]
+          env:
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-admin
+                  key: username
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-admin
+                  key: password
+            - name: KC_HEALTH_ENABLED
+              value: "true"
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: management
+              containerPort: 9000
+          startupProbe:
+            httpGet:
+              path: /health/started
+              port: management
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: management
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: management
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: 768Mi
+              cpu: 250m
+            limits:
+              memory: 1536Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  namespace: federationcapstone-demo
+  labels:
+    app: keycloak
+spec:
+  selector:
+    app: keycloak
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+    - name: management
+      port: 9000
+      targetPort: management
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tester
+  namespace: federationcapstone-demo
+  labels:
+    app: tester
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tester
+  template:
+    metadata:
+      labels:
+        app: tester
+    spec:
+      containers:
+        - name: tester
+          image: nicolaka/netshoot:v0.13
+          command: ["sh", "-c", "while true; do sleep 30; done"]
+---
+# Seed data for OpenLDAP: two people and one group. Lab-only passwords.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openldap-seed
+  namespace: federationcapstone-demo
+data:
+  50-seed.ldif: |
+    dn: ou=people,dc=example,dc=org
+    objectClass: organizationalUnit
+    ou: people
+
+    dn: ou=groups,dc=example,dc=org
+    objectClass: organizationalUnit
+    ou: groups
+
+    dn: uid=ldap-ana,ou=people,dc=example,dc=org
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: person
+    uid: ldap-ana
+    cn: Ana
+    givenName: Ana
+    sn: Directory
+    mail: ldap-ana@example.org
+    userPassword: ldap-password
+
+    dn: uid=ldap-ben,ou=people,dc=example,dc=org
+    objectClass: inetOrgPerson
+    objectClass: organizationalPerson
+    objectClass: person
+    uid: ldap-ben
+    cn: Ben
+    givenName: Ben
+    sn: Directory
+    mail: ldap-ben@example.org
+    userPassword: ldap-password
+
+    dn: cn=warehouse,ou=groups,dc=example,dc=org
+    objectClass: groupOfNames
+    cn: warehouse
+    member: uid=ldap-ana,ou=people,dc=example,dc=org
+---
+# OpenLDAP with base DN dc=example,dc=org. --copy-service copies the seed LDIF
+# out of the read-only ConfigMap mount before the first start.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openldap
+  namespace: federationcapstone-demo
+  labels:
+    app: openldap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openldap
+  template:
+    metadata:
+      labels:
+        app: openldap
+    spec:
+      containers:
+        - name: openldap
+          image: osixia/openldap:1.5.0
+          args: ["--copy-service"]
+          env:
+            - name: LDAP_ORGANISATION
+              value: Example
+            - name: LDAP_DOMAIN
+              value: example.org
+            - name: LDAP_ADMIN_PASSWORD
+              value: ldap-admin-password
+          ports:
+            - name: ldap
+              containerPort: 389
+          readinessProbe:
+            tcpSocket:
+              port: ldap
+            periodSeconds: 5
+          volumeMounts:
+            - name: seed
+              mountPath: /container/service/slapd/assets/config/bootstrap/ldif/custom
+      volumes:
+        - name: seed
+          configMap:
+            name: openldap-seed
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openldap
+  namespace: federationcapstone-demo
+  labels:
+    app: openldap
+spec:
+  selector:
+    app: openldap
+  ports:
+    - name: ldap
+      port: 389
+      targetPort: ldap

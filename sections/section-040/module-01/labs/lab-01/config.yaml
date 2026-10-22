@@ -1,0 +1,51 @@
+# Federate An LDAP Directory
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-lab-040-01"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1, OpenLDAP and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-lab-040-01-setup"
+      description: "Creates the realm inventory with alice and inventory-cli; OpenLDAP holds ldap-ana and ldap-ben, and no LDAP provider exists yet"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-provider-settings"
+      description: "Confirms a read-only LDAP provider named openldap points at OpenLDAP and ou=people"
+      type: "file"
+      source: "validation/validate-provider-settings.sh"
+    - name: "validate-ldap-user-token"
+      description: "Confirms ldap-ana gets a token with the password stored in LDAP"
+      type: "file"
+      source: "validation/validate-ldap-user-token.sh"
+    - name: "validate-users-linked"
+      description: "Confirms ldap-ana and ldap-ben are imported and linked to the provider"
+      type: "file"
+      source: "validation/validate-users-linked.sh"
+
+teardown:
+  keepCluster: false

@@ -1,0 +1,51 @@
+# Give A Group The Roles Its Members Need
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-lab-020-01"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1 and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-lab-020-01-setup"
+      description: "Creates the realm inventory with alice, inventory-cli and inventory-api with the client roles stock-read and stock-write"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-token-roles"
+      description: "Confirms alice's access token carries warehouse-clerk, stock-read and stock-write"
+      type: "file"
+      source: "validation/validate-token-roles.sh"
+    - name: "validate-composite-role"
+      description: "Confirms warehouse-clerk is a composite realm role with stock-read and stock-write"
+      type: "file"
+      source: "validation/validate-composite-role.sh"
+    - name: "validate-mapped-through-group"
+      description: "Confirms the roles reach alice through the group warehouse, not through a direct mapping"
+      type: "file"
+      source: "validation/validate-mapped-through-group.sh"
+
+teardown:
+  keepCluster: false

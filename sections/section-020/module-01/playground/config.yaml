@@ -1,0 +1,24 @@
+# Model Access With Roles, Composite Roles And Groups (PLAYGROUND) — Playground environment
+# A clean sandbox: it spins up, runs OS prep, then stays running for free
+# exploration. No task, no grading, no `astrona submit`.
+# Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-playground-020-01"
+  docs:
+    guide: "docs/overview.md"
+
+bootstrap:
+  init:
+    - name: "prepare"
+      description: "Deploy Keycloak 26.8.1 and the tester pod, wait for Keycloak, then create the inventory realm, alice and bob, inventory-cli, and the client inventory-api with the client roles stock-read and stock-write."
+      type: "file"
+      source: "bootstrap/prepare.sh"
+  manifests:
+    - name: "lab-start"
+      description: "Starting workloads (namespace roles-demo, keycloak-admin Secret, keycloak Deployment and Service, tester client)."
+      type: "file"
+      source: "manifests/lab-start.yaml"
+
+teardown:
+  keepCluster: false
