@@ -77,7 +77,8 @@ BINDINGS="$(kcadm get realms/inventory --fields browserFlow,directGrantFlow | fl
 if ! printf '%s' "$BINDINGS" | grep -q "\"browserFlow\":\"$FLOW\""; then
   echo "FAIL: $FLOW is not the realm's browser flow. Bindings: $BINDINGS"; exit 1
 fi
-if ! printf '%s' "$BINDINGS" | grep -q '"directGrantFlow":"direct grant"'; then
+# flat removes every space, also the one in the alias "direct grant".
+if ! printf '%s' "$BINDINGS" | grep -q '"directGrantFlow":"directgrant"'; then
   echo "FAIL: the direct grant flow binding changed. Bindings: $BINDINGS"; exit 1
 fi
 echo "PASS: browser-stock-admin-otp asks for OTP only for stock-admin and is bound as the browser flow."
