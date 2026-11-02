@@ -31,8 +31,6 @@ training:
     name: Keycloak
     code: KEYCLOAK
     provider: Astrona
-    domain: Realm Administration & Identity Management
-    weight: 20
 
 modules:
 
