@@ -1,0 +1,245 @@
+# Knowledge check for section 030. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats089-030
+course_id: ATS089
+exam_code: KEYCLOAK
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-030
+  title: "Authentication Flows, MFA And Passkeys"
+placement:
+  position: after
+  reading: sections/section-030/capstone/labs/lab-01/question.md
+questions:
+  - id: ats089-030-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define an authentication flow"
+    source_readings:
+      - sections/section-030/module-01/course-01-authentication-flows.md
+    prompt: "What is an authentication flow in Keycloak?"
+    options:
+      - id: a
+        text: "A diagram of the network path between the browser and the server."
+        explanation: "Not correct. A flow is a configuration of sign-in steps, not a network path."
+      - id: b
+        text: "The list of roles a user receives at sign-in."
+        explanation: "Not correct. Roles are mapped to users and groups, not run as steps."
+      - id: c
+        text: "An ordered tree of steps that Keycloak runs when a user signs in."
+        explanation: "Correct. Each step is an execution, which can be an authenticator, a condition or a subflow."
+      - id: d
+        text: "A token that the browser sends on every request."
+        explanation: "Not correct. A token is the result of a sign-in, not the steps of it."
+    correct_option: c
+    explanation: "Correct. Each step is an execution, which can be an authenticator, a condition or a subflow."
+
+  - id: ats089-030-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Know why built-in flows are copied"
+    source_readings:
+      - sections/section-030/module-01/course-01-authentication-flows.md
+    prompt: "Why do you copy the `browser` flow before changing it?"
+    options:
+      - id: a
+        text: "The copy runs faster than the original."
+        explanation: "Not correct. Speed is not the reason."
+      - id: b
+        text: "Keycloak does not let you change the executions of a built-in flow, so you change a copy."
+        explanation: "Correct. The copy keeps every execution and requirement."
+      - id: c
+        text: "A flow can be bound to the realm only once, and the original is already bound."
+        explanation: "Not correct. Binding is a realm setting that you can change at any time."
+      - id: d
+        text: "Copies are the only flows that can contain a subflow."
+        explanation: "Not correct. Built-in flows contain subflows too."
+    correct_option: b
+    explanation: "Correct. The copy keeps every execution and requirement."
+
+  - id: ats089-030-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read requirements"
+    source_readings:
+      - sections/section-030/module-01/course-01-authentication-flows.md
+    prompt: "Several executions at the same level have the requirement `ALTERNATIVE`. What must happen?"
+    options:
+      - id: a
+        text: "At least one of the alternatives must succeed."
+        explanation: "Correct. A valid cookie can end the sign-in before the forms run."
+      - id: b
+        text: "All of them must succeed in order."
+        explanation: "Not correct. That describes `REQUIRED`."
+      - id: c
+        text: "None of them runs unless a condition is true."
+        explanation: "Not correct. That describes a `CONDITIONAL` subflow."
+      - id: d
+        text: "Keycloak skips all of them."
+        explanation: "Not correct. That describes `DISABLED`."
+    correct_option: a
+    explanation: "Correct. A valid cookie can end the sign-in before the forms run."
+
+  - id: ats089-030-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find the flow for the password grant"
+    source_readings:
+      - sections/section-030/module-01/course-01-authentication-flows.md
+    prompt: "A second factor is added to the bound `browser` flow. Why does the password grant of `inventory-cli` still work without it?"
+    options:
+      - id: a
+        text: "The password grant skips every authentication flow."
+        explanation: "Not correct. It runs the `direct grant` flow."
+      - id: b
+        text: "The `inventory-cli` client is exempt from second factors."
+        explanation: "Not correct. The cause is the binding, not the client."
+      - id: c
+        text: "The second factor applies only after one hour."
+        explanation: "Not correct. Flows have no such delay."
+      - id: d
+        text: "The password grant runs the `direct grant` flow, which is bound separately."
+        explanation: "Correct. The realm has one binding for each kind of request."
+    correct_option: d
+    explanation: "Correct. The realm has one binding for each kind of request."
+
+  - id: ats089-030-q05
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Know what a password policy checks"
+    source_readings:
+      - sections/section-030/module-01/course-02-password-policy-and-otp.md
+    prompt: "A realm sets `passwordPolicy` to `length(12) and digits(1)`. Which passwords does Keycloak check against it?"
+    options:
+      - id: a
+        text: "Every existing password, at the next sign-in."
+        explanation: "Not correct. Existing passwords are not checked again."
+      - id: b
+        text: "Only passwords set by the user, not by an administrator."
+        explanation: "Not correct. Administrator changes are checked too."
+      - id: c
+        text: "New passwords, whenever one is set by the user, by an administrator or by a reset."
+        explanation: "Correct. Existing passwords are not checked until they change."
+      - id: d
+        text: "Only passwords of users who have an OTP device."
+        explanation: "Not correct. The policy applies to all passwords."
+    correct_option: c
+    explanation: "Correct. Existing passwords are not checked until they change."
+
+  - id: ats089-030-q06
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Read the default OTP policy"
+    source_readings:
+      - sections/section-030/module-01/course-02-password-policy-and-otp.md
+    prompt: "Which values are the defaults of the OTP policy of a realm?"
+    options:
+      - id: a
+        text: "Type `hotp`, algorithm `HmacSHA256`, 8 digits and a 60-second period."
+        explanation: "Not correct. Those are not the defaults."
+      - id: b
+        text: "Type `totp`, algorithm `HmacSHA1`, 6 digits and a 30-second period."
+        explanation: "Correct. Common authenticator apps support these values."
+      - id: c
+        text: "Type `totp`, algorithm `HmacSHA512`, 4 digits and a 10-second period."
+        explanation: "Not correct. Those are not the defaults."
+      - id: d
+        text: "Type `hotp`, algorithm `HmacSHA1`, 6 digits and no period."
+        explanation: "Not correct. The default type is `totp`, which uses a period."
+    correct_option: b
+    explanation: "Correct. Common authenticator apps support these values."
+
+  - id: ats089-030-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose the condition for role-based OTP"
+    source_readings:
+      - sections/section-030/module-01/course-02-password-policy-and-otp.md
+    prompt: "You want OTP for every user with the role `stock-admin` and nobody else. Which condition do you use in the second-factor subflow?"
+    options:
+      - id: a
+        text: "`Condition - user role`, set to `stock-admin`, in place of `Condition - user configured`."
+        explanation: "Correct. The role condition is true for users who hold the role."
+      - id: b
+        text: "Only `Condition - user configured`, which asks users who have the role."
+        explanation: "Not correct. That condition is true for users who already have an OTP device."
+      - id: c
+        text: "The `Cookie` execution."
+        explanation: "Not correct. It checks for a session cookie and does not check roles."
+      - id: d
+        text: "The password policy rule `notUsername`."
+        explanation: "Not correct. A password policy rule does not change a flow."
+    correct_option: a
+    explanation: "Correct. The role condition is true for users who hold the role."
+
+  - id: ats089-030-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Know the state of a new execution"
+    source_readings:
+      - sections/section-030/module-01/course-02-password-policy-and-otp.md
+    prompt: "You add `Condition - user role` to a subflow with `kcadm`. In which state does it start?"
+    options:
+      - id: a
+        text: "`REQUIRED`."
+        explanation: "Not correct. New executions start disabled."
+      - id: b
+        text: "`ALTERNATIVE`."
+        explanation: "Not correct. New executions start disabled."
+      - id: c
+        text: "`CONDITIONAL`."
+        explanation: "Not correct. That requirement is for subflows, and a new execution is disabled."
+      - id: d
+        text: "`DISABLED`, so you must set its requirement to `REQUIRED`."
+        explanation: "Correct. A disabled condition never runs."
+    correct_option: d
+    explanation: "Correct. A disabled condition never runs."
+
+  - id: ats089-030-q09
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Explain what makes WebAuthn safer"
+    source_readings:
+      - sections/section-030/module-01/course-03-webauthn-and-passkeys.md
+    prompt: "Why is a WebAuthn credential harder to steal with a fake site than a one-time code?"
+    options:
+      - id: a
+        text: "The code is longer than a one-time code."
+        explanation: "Not correct. There is no code to type."
+      - id: b
+        text: "The server stores the private key safely."
+        explanation: "Not correct. The server holds only the public key."
+      - id: c
+        text: "The private key stays on the device, and the device signs only for the site that registered it."
+        explanation: "Correct. The user cannot type the credential into another site."
+      - id: d
+        text: "The credential is the same on every site."
+        explanation: "Not correct. The authenticator makes a key pair for each site."
+    correct_option: c
+    explanation: "Correct. The user cannot type the credential into another site."
+
+  - id: ats089-030-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Pick the right policy for passkeys"
+    source_readings:
+      - sections/section-030/module-01/course-03-webauthn-and-passkeys.md
+    prompt: "Which realm policy and required action do you set for passkeys?"
+    options:
+      - id: a
+        text: "The WebAuthn Policy and the required action `webauthn-register`."
+        explanation: "Not correct. They belong to WebAuthn as a second factor."
+      - id: b
+        text: "The WebAuthn Passwordless Policy and the required action `webauthn-register-passwordless`."
+        explanation: "Correct. The second-factor use has its own policy and action."
+      - id: c
+        text: "The OTP policy and the required action `CONFIGURE_TOTP`."
+        explanation: "Not correct. They belong to one-time passwords."
+      - id: d
+        text: "The password policy and the required action `UPDATE_PASSWORD`."
+        explanation: "Not correct. They belong to passwords."
+    correct_option: b
+    explanation: "Correct. The second-factor use has its own policy and action."

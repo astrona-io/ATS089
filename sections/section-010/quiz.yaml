@@ -1,0 +1,245 @@
+# Knowledge check for section 010. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats089-010
+course_id: ATS089
+exam_code: KEYCLOAK
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-010
+  title: "Users And The User Lifecycle"
+placement:
+  position: after
+  reading: sections/section-010/capstone/labs/lab-01/question.md
+questions:
+  - id: ats089-010-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Describe the user profile"
+    source_readings:
+      - sections/section-010/module-01/course-01-users-and-the-user-profile.md
+    prompt: "What is the user profile of a Keycloak realm?"
+    options:
+      - id: a
+        text: "The realm's list of user attributes, with the rules for who may see or edit each one and which attributes are required."
+        explanation: "Correct. The user profile is declarative: it describes the attributes as data and Keycloak applies it everywhere."
+      - id: b
+        text: "The list of roles that every user of the realm receives."
+        explanation: "Not correct. Roles are assigned separately. The user profile lists attributes."
+      - id: c
+        text: "The page where a user changes their own password."
+        explanation: "Not correct. Passwords are credentials, which are stored apart from the user record."
+      - id: d
+        text: "The set of sessions that a user currently has open."
+        explanation: "Not correct. Sessions are a separate resource of the user."
+    correct_option: a
+    explanation: "Correct. The user profile is declarative: it describes the attributes as data and Keycloak applies it everywhere."
+
+  - id: ats089-010-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Know where credentials are stored"
+    source_readings:
+      - sections/section-010/module-01/course-01-users-and-the-user-profile.md
+    prompt: "Where does Keycloak show the password of a user in the Admin REST API?"
+    options:
+      - id: a
+        text: "In the `password` field of the user record."
+        explanation: "Not correct. The user record has no password field."
+      - id: b
+        text: "In the `attributes` of the user."
+        explanation: "Not correct. Attributes are managed by the user profile and do not hold credentials."
+      - id: c
+        text: "In `users/profile`."
+        explanation: "Not correct. That path returns the realm's user profile, not any user's credentials."
+      - id: d
+        text: "Nowhere. Credentials are stored apart from the record, and `users/<id>/credentials` shows only the type and creation date."
+        explanation: "Correct. The API never returns a secret value."
+    correct_option: d
+    explanation: "Correct. The API never returns a secret value."
+
+  - id: ats089-010-q03
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Read a required rule"
+    source_readings:
+      - sections/section-010/module-01/course-01-users-and-the-user-profile.md
+    prompt: "In the realm `inventory`, `email` has a `required` rule that lists only the role `user`. What does that mean?"
+    options:
+      - id: a
+        text: "Nobody can create a user without an email, including an administrator."
+        explanation: "Not correct. A rule that also listed `admin` would bind administrators."
+      - id: b
+        text: "The email is optional for every role."
+        explanation: "Not correct. The rule makes the value required for the role `user`."
+      - id: c
+        text: "The user must provide the email, but an administrator who creates or edits the record does not have to."
+        explanation: "Correct. The rule binds only the roles it names."
+      - id: d
+        text: "Keycloak deletes users that have no email."
+        explanation: "Not correct. Keycloak keeps the user and asks for the value at sign-in."
+    correct_option: c
+    explanation: "Correct. The rule binds only the roles it names."
+
+  - id: ats089-010-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain what Keycloak does with an incomplete profile"
+    source_readings:
+      - sections/section-010/module-01/course-01-users-and-the-user-profile.md
+    prompt: "A user has no last name, and the profile requires one. What happens at the next sign-in with the password grant?"
+    options:
+      - id: a
+        text: "Keycloak issues tokens and fills in the last name with an empty value."
+        explanation: "Not correct. Keycloak does not issue tokens while the profile is incomplete."
+      - id: b
+        text: "The token endpoint refuses the request with `invalid_grant`, because the required action `VERIFY_PROFILE` is pending and the grant cannot show a form."
+        explanation: "Correct. In a browser the user would see a form instead."
+      - id: c
+        text: "Keycloak deletes the user."
+        explanation: "Not correct. Keycloak never deletes a user because of a missing value."
+      - id: d
+        text: "The request fails with `invalid_client`."
+        explanation: "Not correct. The client is fine. The error is `invalid_grant`."
+    correct_option: b
+    explanation: "Correct. In a browser the user would see a form instead."
+
+  - id: ats089-010-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain impersonation"
+    source_readings:
+      - sections/section-010/module-01/course-03-groups-and-impersonation.md
+    prompt: "What does impersonating `alice` in the Admin Console do?"
+    options:
+      - id: a
+        text: "It signs the administrator in to the account console of the realm as `alice`, creates a session for her and records an `IMPERSONATE` event."
+        explanation: "Correct. It needs the `impersonation` role of the client `realm-management`."
+      - id: b
+        text: "It resets the password of `alice` and shows it to the administrator."
+        explanation: "Not correct. Impersonation never shows or changes a password."
+      - id: c
+        text: "It copies the roles of `alice` to the administrator."
+        explanation: "Not correct. The administrator acts as `alice` and keeps their own roles."
+      - id: d
+        text: "It disables `alice` while the administrator is signed in as her."
+        explanation: "Not correct. The account stays enabled."
+    correct_option: a
+    explanation: "Correct. It needs the `impersonation` role of the client `realm-management`."
+
+  - id: ats089-010-q06
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define a temporary password"
+    source_readings:
+      - sections/section-010/module-01/course-02-credentials-and-required-actions.md
+    prompt: "What does `kcadm set-password ... --temporary` do?"
+    options:
+      - id: a
+        text: "It sets a password that expires after five minutes."
+        explanation: "Not correct. The password does not expire. The user must change it at sign-in."
+      - id: b
+        text: "It sets the password only for the current session."
+        explanation: "Not correct. The password is stored as the user's credential."
+      - id: c
+        text: "It disables the account until the user resets the password."
+        explanation: "Not correct. The account stays enabled."
+      - id: d
+        text: "It sets the password and adds the required action `UPDATE_PASSWORD`, so the user must replace it at the first sign-in."
+        explanation: "Correct. The password is valid, but the user must change it."
+    correct_option: d
+    explanation: "Correct. The password is valid, but the user must change it."
+
+  - id: ats089-010-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read a token endpoint refusal"
+    source_readings:
+      - sections/section-010/module-01/course-02-credentials-and-required-actions.md
+    prompt: "`bob` types the right password but the password grant returns `invalid_grant`. Which field tells you the cause?"
+    options:
+      - id: a
+        text: "`error`, because each cause has its own value."
+        explanation: "Not correct. `error` is `invalid_grant` for a pending required action, a disabled account and a wrong password."
+      - id: b
+        text: "`token_type`."
+        explanation: "Not correct. A refused request has no token and no `token_type`."
+      - id: c
+        text: "`error_description`, together with the user's settings."
+        explanation: "Correct. `invalid_grant` covers several causes, and the description names it."
+      - id: d
+        text: "`expires_in`."
+        explanation: "Not correct. That field belongs to a successful token response."
+    correct_option: c
+    explanation: "Correct. `invalid_grant` covers several causes, and the description names it."
+
+  - id: ats089-010-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Clear a pending required action"
+    source_readings:
+      - sections/section-010/module-01/course-02-credentials-and-required-actions.md
+    prompt: "`bob` has the required action `UPDATE_PASSWORD` and the lab only needs him to get a token. Which fix leaves the realm's rules unchanged?"
+    options:
+      - id: a
+        text: "Disable `UPDATE_PASSWORD` in the realm's required actions."
+        explanation: "Not correct. Every user with a temporary password could then skip the change."
+      - id: b
+        text: "Set a permanent password for `bob` and clear his `requiredActions`."
+        explanation: "Correct. The change affects only `bob`."
+      - id: c
+        text: "Set a new password only, without touching `requiredActions`."
+        explanation: "Not correct. A user who still has `UPDATE_PASSWORD` is still refused."
+      - id: d
+        text: "Delete `bob` and create him again."
+        explanation: "Not correct. The new user gets a new `id`."
+    correct_option: b
+    explanation: "Correct. The change affects only `bob`."
+
+  - id: ats089-010-q09
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define a group"
+    source_readings:
+      - sections/section-010/module-01/course-03-groups-and-impersonation.md
+    prompt: "What does a Keycloak group give you?"
+    options:
+      - id: a
+        text: "A set of users in a realm, where roles and attributes set on the group apply to every member."
+        explanation: "Correct. Groups manage access for many users at once."
+      - id: b
+        text: "A separate realm with its own users."
+        explanation: "Not correct. A group lives inside one realm."
+      - id: c
+        text: "A list of clients that a user may sign in to."
+        explanation: "Not correct. Clients are separate resources."
+      - id: d
+        text: "A copy of one user's credentials for the other members."
+        explanation: "Not correct. Credentials are never shared through a group."
+    correct_option: a
+    explanation: "Correct. Groups manage access for many users at once."
+
+  - id: ats089-010-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Offboard a user safely"
+    source_readings:
+      - sections/section-010/module-01/course-03-groups-and-impersonation.md
+    prompt: "`mallory` leaves the team and the security team needs the audit trail. Which steps offboard her?"
+    options:
+      - id: a
+        text: "Delete the account, which also ends the sessions."
+        explanation: "Not correct. Deleting destroys the record that audits need."
+      - id: b
+        text: "Disable the account only. Open sessions end by themselves at once."
+        explanation: "Not correct. Disabling stops new sign-ins but does not end existing sessions."
+      - id: c
+        text: "Remove her from the group only."
+        explanation: "Not correct. She could still sign in and keep her sessions."
+      - id: d
+        text: "Disable the account, remove her from her groups and end her sessions with the `logout` endpoint."
+        explanation: "Correct. The record stays for audits and her access ends."
+    correct_option: d
+    explanation: "Correct. The record stays for audits and her access ends."

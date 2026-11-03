@@ -1,0 +1,288 @@
+# Final domain knowledge check across all four sections.
+schema_version: 1
+kind: question_bank
+id: ats089-final
+course_id: ATS089
+exam_code: KEYCLOAK
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: domain
+  id: realm-administration-identity-management
+  title: "Realm Administration & Identity Management"
+questions:
+  - id: ats089-final-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Describe the user profile"
+    source_readings:
+      - sections/section-010/module-01/course-01-users-and-the-user-profile.md
+    prompt: "What is the user profile of a Keycloak realm?"
+    options:
+      - id: a
+        text: "The realm's list of user attributes, with the rules for who may see or edit each one and which attributes are required."
+        explanation: "Correct. The user profile is declarative: it describes the attributes as data and Keycloak applies it everywhere."
+      - id: b
+        text: "The list of roles that every user of the realm receives."
+        explanation: "Not correct. Roles are assigned separately. The user profile lists attributes."
+      - id: c
+        text: "The page where a user changes their own password."
+        explanation: "Not correct. Passwords are credentials, which are stored apart from the user record."
+      - id: d
+        text: "The set of sessions that a user currently has open."
+        explanation: "Not correct. Sessions are a separate resource of the user."
+    correct_option: a
+    explanation: "Correct. The user profile is declarative: it describes the attributes as data and Keycloak applies it everywhere."
+
+  - id: ats089-final-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define a temporary password"
+    source_readings:
+      - sections/section-010/module-01/course-02-credentials-and-required-actions.md
+    prompt: "What does `kcadm set-password ... --temporary` do?"
+    options:
+      - id: a
+        text: "It sets a password that expires after five minutes."
+        explanation: "Not correct. The password does not expire. The user must change it at sign-in."
+      - id: b
+        text: "It sets the password only for the current session."
+        explanation: "Not correct. The password is stored as the user's credential."
+      - id: c
+        text: "It disables the account until the user resets the password."
+        explanation: "Not correct. The account stays enabled."
+      - id: d
+        text: "It sets the password and adds the required action `UPDATE_PASSWORD`, so the user must replace it at the first sign-in."
+        explanation: "Correct. The password is valid, but the user must change it."
+    correct_option: d
+    explanation: "Correct. The password is valid, but the user must change it."
+
+  - id: ats089-final-q03
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define a group"
+    source_readings:
+      - sections/section-010/module-01/course-03-groups-and-impersonation.md
+    prompt: "What does a Keycloak group give you?"
+    options:
+      - id: a
+        text: "A separate realm with its own users."
+        explanation: "Not correct. A group lives inside one realm."
+      - id: b
+        text: "A list of clients that a user may sign in to."
+        explanation: "Not correct. Clients are separate resources."
+      - id: c
+        text: "A set of users in a realm, where roles and attributes set on the group apply to every member."
+        explanation: "Correct. Groups manage access for many users at once."
+      - id: d
+        text: "A copy of one user's credentials for the other members."
+        explanation: "Not correct. Credentials are never shared through a group."
+    correct_option: c
+    explanation: "Correct. Groups manage access for many users at once."
+
+  - id: ats089-final-q04
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Use the right option for a client role"
+    source_readings:
+      - sections/section-020/module-01/course-01-realm-roles-and-client-roles.md
+    prompt: "`kcadm add-roles --uusername bob --rolename stock-read` fails. Which option is missing?"
+    options:
+      - id: a
+        text: "`--rname inventory-api`, which names the client."
+        explanation: "Not correct. `--rname` adds roles to a role, not to a user, and does not name a client."
+      - id: b
+        text: "`--cclientid inventory-api`, which names the client that owns the role."
+        explanation: "Correct. Without it, `add-roles` looks for a realm role of that name."
+      - id: c
+        text: "`--gname bob`, which names the user."
+        explanation: "Not correct. `--gname` names a group. `--uusername` already names the user."
+      - id: d
+        text: "`--effective`, which maps indirect roles."
+        explanation: "Not correct. `--effective` is an option of `get-roles` for reading."
+    correct_option: b
+    explanation: "Correct. Without it, `add-roles` looks for a realm role of that name."
+
+  - id: ats089-final-q05
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define a composite role"
+    source_readings:
+      - sections/section-020/module-01/course-02-composite-roles-and-default-roles.md
+    prompt: "What happens when a user is mapped to a composite role?"
+    options:
+      - id: a
+        text: "The user gets every role the composite contains, and every role those contain in turn."
+        explanation: "Correct. Keycloak expands composites when it builds the token."
+      - id: b
+        text: "The user gets only the composite role's own name."
+        explanation: "Not correct. The token also holds the contained roles."
+      - id: c
+        text: "The user can only use the composite role in the Admin Console."
+        explanation: "Not correct. The roles reach the access token."
+      - id: d
+        text: "The user gets the roles of one level only, never deeper."
+        explanation: "Not correct. Roles in nested composites are expanded too."
+    correct_option: a
+    explanation: "Correct. Keycloak expands composites when it builds the token."
+
+  - id: ats089-final-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the client scope `roles`"
+    source_readings:
+      - sections/section-020/module-01/course-03-groups-and-roles-in-tokens.md
+    prompt: "A role is mapped correctly through a group, but the token of `inventory-cli` has no `realm_access` or `resource_access`. Which setting is the likely cause?"
+    options:
+      - id: a
+        text: "The group has no members."
+        explanation: "Not correct. An empty group would not remove the claims for a user who is a member."
+      - id: b
+        text: "The user profile requires a last name."
+        explanation: "Not correct. A required attribute does not remove role claims."
+      - id: c
+        text: "The password policy is too strict."
+        explanation: "Not correct. A password policy applies when a password is set."
+      - id: d
+        text: "The client scope `roles` was removed from the default client scopes of the client."
+        explanation: "Correct. That scope holds the protocol mappers that write both claims."
+    correct_option: d
+    explanation: "Correct. That scope holds the protocol mappers that write both claims."
+
+  - id: ats089-final-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read requirements"
+    source_readings:
+      - sections/section-030/module-01/course-01-authentication-flows.md
+    prompt: "Several executions at the same level have the requirement `ALTERNATIVE`. What must happen?"
+    options:
+      - id: a
+        text: "All of them must succeed in order."
+        explanation: "Not correct. That describes `REQUIRED`."
+      - id: b
+        text: "None of them runs unless a condition is true."
+        explanation: "Not correct. That describes a `CONDITIONAL` subflow."
+      - id: c
+        text: "At least one of the alternatives must succeed."
+        explanation: "Correct. A valid cookie can end the sign-in before the forms run."
+      - id: d
+        text: "Keycloak skips all of them."
+        explanation: "Not correct. That describes `DISABLED`."
+    correct_option: c
+    explanation: "Correct. A valid cookie can end the sign-in before the forms run."
+
+  - id: ats089-final-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose the condition for role-based OTP"
+    source_readings:
+      - sections/section-030/module-01/course-02-password-policy-and-otp.md
+    prompt: "You want OTP for every user with the role `stock-admin` and nobody else. Which condition do you use in the second-factor subflow?"
+    options:
+      - id: a
+        text: "Only `Condition - user configured`, which asks users who have the role."
+        explanation: "Not correct. That condition is true for users who already have an OTP device."
+      - id: b
+        text: "`Condition - user role`, set to `stock-admin`, in place of `Condition - user configured`."
+        explanation: "Correct. The role condition is true for users who hold the role."
+      - id: c
+        text: "The `Cookie` execution."
+        explanation: "Not correct. It checks for a session cookie and does not check roles."
+      - id: d
+        text: "The password policy rule `notUsername`."
+        explanation: "Not correct. A password policy rule does not change a flow."
+    correct_option: b
+    explanation: "Correct. The role condition is true for users who hold the role."
+
+  - id: ats089-final-q09
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Explain what makes WebAuthn safer"
+    source_readings:
+      - sections/section-030/module-01/course-03-webauthn-and-passkeys.md
+    prompt: "Why is a WebAuthn credential harder to steal with a fake site than a one-time code?"
+    options:
+      - id: a
+        text: "The private key stays on the device, and the device signs only for the site that registered it."
+        explanation: "Correct. The user cannot type the credential into another site."
+      - id: b
+        text: "The code is longer than a one-time code."
+        explanation: "Not correct. There is no code to type."
+      - id: c
+        text: "The server stores the private key safely."
+        explanation: "Not correct. The server holds only the public key."
+      - id: d
+        text: "The credential is the same on every site."
+        explanation: "Not correct. The authenticator makes a key pair for each site."
+    correct_option: a
+    explanation: "Correct. The user cannot type the credential into another site."
+
+  - id: ats089-final-q10
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Explain how Keycloak checks an LDAP password"
+    source_readings:
+      - sections/section-040/module-01/course-01-ldap-federation-and-the-user-storage-spi.md
+    prompt: "How does Keycloak check the password of `ldap-ana` against OpenLDAP?"
+    options:
+      - id: a
+        text: "It reads the `userPassword` attribute and compares it itself."
+        explanation: "Not correct. Keycloak does not read the stored value."
+      - id: b
+        text: "It copies the password into its own database at the first sign-in."
+        explanation: "Not correct. The password stays in LDAP."
+      - id: c
+        text: "It asks the browser to send the password to the directory."
+        explanation: "Not correct. The browser talks to Keycloak only."
+      - id: d
+        text: "It binds to the LDAP server as the user with the password she typed."
+        explanation: "Correct. Keycloak never needs to read `userPassword`."
+    correct_option: d
+    explanation: "Correct. Keycloak never needs to read `userPassword`."
+
+  - id: ats089-final-q11
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Choose an edit mode"
+    source_readings:
+      - sections/section-040/module-01/course-03-edit-modes-mappers-and-sync.md
+    prompt: "The directory is the source of truth and other tools maintain it. Which edit mode fits?"
+    options:
+      - id: a
+        text: "`WRITABLE`."
+        explanation: "Not correct. That mode writes Keycloak's changes back to LDAP."
+      - id: b
+        text: "`UNSYNCED`."
+        explanation: "Not correct. That mode stores changes in Keycloak only, so the two drift apart."
+      - id: c
+        text: "`READ_ONLY`."
+        explanation: "Correct. Keycloak refuses changes to mapped attributes and the password."
+      - id: d
+        text: "`IMPORT`."
+        explanation: "Not correct. That is a sync mode of an identity provider, not an edit mode."
+    correct_option: c
+    explanation: "Correct. Keycloak refuses changes to mapped attributes and the password."
+
+  - id: ats089-final-q12
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the broker endpoint"
+    source_readings:
+      - sections/section-040/module-02/course-01-identity-brokering.md
+    prompt: "What is the broker endpoint for an identity provider with the alias `partner` in the realm `inventory`?"
+    options:
+      - id: a
+        text: "`/realms/partner/broker/inventory/endpoint`."
+        explanation: "Not correct. The realm comes first and the alias second."
+      - id: b
+        text: "`/realms/inventory/broker/partner/endpoint`."
+        explanation: "Correct. The alias is part of the path."
+      - id: c
+        text: "`/realms/inventory/protocol/openid-connect/auth`."
+        explanation: "Not correct. That is the authorization endpoint of the realm."
+      - id: d
+        text: "`/realms/inventory/.well-known/openid-configuration`."
+        explanation: "Not correct. That is the discovery document."
+    correct_option: b
+    explanation: "Correct. The alias is part of the path."

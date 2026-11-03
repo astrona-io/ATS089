@@ -1,0 +1,245 @@
+# Knowledge check for section 020. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats089-020
+course_id: ATS089
+exam_code: KEYCLOAK
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-020
+  title: "Roles, Composite Roles And Groups"
+placement:
+  position: after
+  reading: sections/section-020/capstone/labs/lab-01/question.md
+questions:
+  - id: ats089-020-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Tell realm roles and client roles apart"
+    source_readings:
+      - sections/section-020/module-01/course-01-realm-roles-and-client-roles.md
+    prompt: "Which role is best as a client role?"
+    options:
+      - id: a
+        text: "`warehouse-clerk`, a job title that means the same everywhere."
+        explanation: "Not correct. A job title that every client can see suits a realm role."
+      - id: b
+        text: "`stock-write`, a permission that only the `inventory-api` client understands."
+        explanation: "Correct. A client role belongs to one client, so two APIs can each have their own `read` without a clash."
+      - id: c
+        text: "`offline_access`, which every realm starts with."
+        explanation: "Not correct. It is a realm role that Keycloak creates in every realm."
+      - id: d
+        text: "`default-roles-inventory`, which every user receives."
+        explanation: "Not correct. It is the realm's default composite role, not a client role."
+    correct_option: b
+    explanation: "Correct. A client role belongs to one client, so two APIs can each have their own `read` without a clash."
+
+  - id: ats089-020-q02
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Use the right option for a client role"
+    source_readings:
+      - sections/section-020/module-01/course-01-realm-roles-and-client-roles.md
+    prompt: "`kcadm add-roles --uusername bob --rolename stock-read` fails. Which option is missing?"
+    options:
+      - id: a
+        text: "`--cclientid inventory-api`, which names the client that owns the role."
+        explanation: "Correct. Without it, `add-roles` looks for a realm role of that name."
+      - id: b
+        text: "`--rname inventory-api`, which names the client."
+        explanation: "Not correct. `--rname` adds roles to a role, not to a user, and does not name a client."
+      - id: c
+        text: "`--gname bob`, which names the user."
+        explanation: "Not correct. `--gname` names a group. `--uusername` already names the user."
+      - id: d
+        text: "`--effective`, which maps indirect roles."
+        explanation: "Not correct. `--effective` is an option of `get-roles` for reading."
+    correct_option: a
+    explanation: "Correct. Without it, `add-roles` looks for a realm role of that name."
+
+  - id: ats089-020-q03
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Find roles in a token"
+    source_readings:
+      - sections/section-020/module-01/course-01-realm-roles-and-client-roles.md
+    prompt: "Where does an access token list the client roles of `inventory-api` for a user?"
+    options:
+      - id: a
+        text: "In `realm_access.roles`."
+        explanation: "Not correct. That claim holds realm roles only."
+      - id: b
+        text: "In the `scope` claim only."
+        explanation: "Not correct. The `scope` claim lists scopes, not role mappings."
+      - id: c
+        text: "In `typ`."
+        explanation: "Not correct. That claim holds the token type."
+      - id: d
+        text: "In `resource_access`, under the client `inventory-api`."
+        explanation: "Correct. Client roles are grouped by the client that owns them."
+    correct_option: d
+    explanation: "Correct. Client roles are grouped by the client that owns them."
+
+  - id: ats089-020-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Know when a role change reaches a token"
+    source_readings:
+      - sections/section-020/module-01/course-01-realm-roles-and-client-roles.md
+    prompt: "An administrator maps `stock-admin` to `bob`. `bob` still has an old access token. What does that token hold?"
+    options:
+      - id: a
+        text: "It now includes `stock-admin`, because Keycloak updates issued tokens."
+        explanation: "Not correct. Keycloak does not change a token after it is issued."
+      - id: b
+        text: "It becomes invalid and cannot be used again."
+        explanation: "Not correct. It stays valid until it expires."
+      - id: c
+        text: "The roles from the moment it was issued, so `bob` needs a new token to see `stock-admin`."
+        explanation: "Correct. A token is a snapshot of the roles at issue time."
+      - id: d
+        text: "It includes `stock-admin` after five minutes."
+        explanation: "Not correct. Only a newly issued token has the new role."
+    correct_option: c
+    explanation: "Correct. A token is a snapshot of the roles at issue time."
+
+  - id: ats089-020-q05
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Define a composite role"
+    source_readings:
+      - sections/section-020/module-01/course-02-composite-roles-and-default-roles.md
+    prompt: "What happens when a user is mapped to a composite role?"
+    options:
+      - id: a
+        text: "The user gets only the composite role's own name."
+        explanation: "Not correct. The token also holds the contained roles."
+      - id: b
+        text: "The user gets every role the composite contains, and every role those contain in turn."
+        explanation: "Correct. Keycloak expands composites when it builds the token."
+      - id: c
+        text: "The user can only use the composite role in the Admin Console."
+        explanation: "Not correct. The roles reach the access token."
+      - id: d
+        text: "The user gets the roles of one level only, never deeper."
+        explanation: "Not correct. Roles in nested composites are expanded too."
+    correct_option: b
+    explanation: "Correct. Keycloak expands composites when it builds the token."
+
+  - id: ats089-020-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Use `--rname`"
+    source_readings:
+      - sections/section-020/module-01/course-02-composite-roles-and-default-roles.md
+    prompt: "What does `kcadm add-roles --rname warehouse-clerk --cclientid inventory-api --rolename stock-read` do?"
+    options:
+      - id: a
+        text: "It adds the client role `stock-read` to the role `warehouse-clerk`, which makes it a composite."
+        explanation: "Correct. With `--rname`, the target is a role instead of a user."
+      - id: b
+        text: "It maps `stock-read` to a user named `warehouse-clerk`."
+        explanation: "Not correct. `--uusername` names a user."
+      - id: c
+        text: "It creates the role `warehouse-clerk`."
+        explanation: "Not correct. The role must exist already. `kcadm create roles` creates it."
+      - id: d
+        text: "It maps `stock-read` to a group named `warehouse-clerk`."
+        explanation: "Not correct. `--gname` names a group."
+    correct_option: a
+    explanation: "Correct. With `--rname`, the target is a role instead of a user."
+
+  - id: ats089-020-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the default roles"
+    source_readings:
+      - sections/section-020/module-01/course-02-composite-roles-and-default-roles.md
+    prompt: "Which statement about `default-roles-inventory` is correct?"
+    options:
+      - id: a
+        text: "It holds only the roles of the `master` realm."
+        explanation: "Not correct. It belongs to the realm `inventory`."
+      - id: b
+        text: "It is mapped only to users created after the role was changed."
+        explanation: "Not correct. Keycloak maps it to new and existing users."
+      - id: c
+        text: "It is a client role of the client `account`."
+        explanation: "Not correct. It is a realm role. It contains client roles of `account`."
+      - id: d
+        text: "It is a composite role mapped to every user, and a role added to it reaches every user at the next token."
+        explanation: "Correct. It holds the roles every user of the realm should have."
+    correct_option: d
+    explanation: "Correct. It holds the roles every user of the realm should have."
+
+  - id: ats089-020-q08
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read direct and effective roles"
+    source_readings:
+      - sections/section-020/module-01/course-03-groups-and-roles-in-tokens.md
+    prompt: "`kcadm get-roles --uusername alice` shows only `default-roles-inventory`, but her token has `warehouse-clerk`. How do you see why?"
+    options:
+      - id: a
+        text: "Run `get-roles` again. The first answer was wrong."
+        explanation: "Not correct. Without `--effective` the command shows direct mappings only."
+      - id: b
+        text: "Delete `alice` and create her again."
+        explanation: "Not correct. That loses her `id` and does not explain anything."
+      - id: c
+        text: "Run `get-roles --effective`. The extra roles come from a group or a composite."
+        explanation: "Correct. The difference between the two lists is the answer."
+      - id: d
+        text: "Read the realm's user profile."
+        explanation: "Not correct. The user profile lists attributes, not roles."
+    correct_option: c
+    explanation: "Correct. The difference between the two lists is the answer."
+
+  - id: ats089-020-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the client scope `roles`"
+    source_readings:
+      - sections/section-020/module-01/course-03-groups-and-roles-in-tokens.md
+    prompt: "A role is mapped correctly through a group, but the token of `inventory-cli` has no `realm_access` or `resource_access`. Which setting is the likely cause?"
+    options:
+      - id: a
+        text: "The group has no members."
+        explanation: "Not correct. An empty group would not remove the claims for a user who is a member."
+      - id: b
+        text: "The client scope `roles` was removed from the default client scopes of the client."
+        explanation: "Correct. That scope holds the protocol mappers that write both claims."
+      - id: c
+        text: "The user profile requires a last name."
+        explanation: "Not correct. A required attribute does not remove role claims."
+      - id: d
+        text: "The password policy is too strict."
+        explanation: "Not correct. A password policy applies when a password is set."
+    correct_option: b
+    explanation: "Correct. That scope holds the protocol mappers that write both claims."
+
+  - id: ats089-020-q10
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Explain Full scope allowed"
+    source_readings:
+      - sections/section-020/module-01/course-03-groups-and-roles-in-tokens.md
+    prompt: "What does Full scope allowed do on a client?"
+    options:
+      - id: a
+        text: "When it is on, every role the user holds can enter the token. When it is off, only the roles in the client's scope mappings can."
+        explanation: "Correct. Turning it off without scope mappings leaves the tokens without roles."
+      - id: b
+        text: "It lets the client write roles to users."
+        explanation: "Not correct. It filters which roles enter tokens."
+      - id: c
+        text: "It gives the client every role of the realm."
+        explanation: "Not correct. It works on the roles the user holds."
+      - id: d
+        text: "It disables the client scope `roles`."
+        explanation: "Not correct. The scope stays. Full scope allowed is a separate filter."
+    correct_option: a
+    explanation: "Correct. Turning it off without scope mappings leaves the tokens without roles."

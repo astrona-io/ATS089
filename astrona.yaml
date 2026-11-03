@@ -129,6 +129,10 @@ modules:
             url: https://www.keycloak.org/docs/latest/server_admin/index.html#proc-managing-groups_server_administration_guide
           - name: "Server Administration Guide: Admin CLI"
             url: https://www.keycloak.org/docs/latest/server_admin/index.html#admin-cli
+      - type: quiz
+        title: "Knowledge Check: Users And The User Lifecycle"
+        path: sections/section-010/quiz.yaml
+        pass_score: 70
 
   - id: module-020
     title: "Roles, Composite Roles And Groups"
@@ -199,6 +203,10 @@ modules:
             url: https://www.keycloak.org/docs/latest/server_admin/index.html#_client_scopes
           - name: "Server Administration Guide: roles and groups"
             url: https://www.keycloak.org/docs/latest/server_admin/index.html#assigning-permissions-using-roles-and-groups
+      - type: quiz
+        title: "Knowledge Check: Roles, Composite Roles And Groups"
+        path: sections/section-020/quiz.yaml
+        pass_score: 70
 
   - id: module-030
     title: "Authentication Flows, MFA And Passkeys"
@@ -273,6 +281,10 @@ modules:
             url: https://www.keycloak.org/docs/latest/server_admin/index.html#one-time-password-otp-policies
           - name: "Server Administration Guide: authentication flows"
             url: https://www.keycloak.org/docs/latest/server_admin/index.html#_authentication-flows
+      - type: quiz
+        title: "Knowledge Check: Authentication Flows, MFA And Passkeys"
+        path: sections/section-030/quiz.yaml
+        pass_score: 70
 
   - id: module-040
     title: "User Federation And Identity Brokering"
@@ -379,3 +391,11 @@ modules:
             url: https://www.keycloak.org/docs/latest/server_admin/index.html#_ldap
           - name: "Server Administration Guide: LDAP mappers"
             url: https://www.keycloak.org/docs/latest/server_admin/index.html#_ldap_mappers
+      - type: quiz
+        title: "Knowledge Check: User Federation And Identity Brokering"
+        path: sections/section-040/quiz.yaml
+        pass_score: 70
+      - type: quiz
+        title: "Final Domain Quiz"
+        path: sections/final-domain-quiz.yaml
+        pass_score: 70
