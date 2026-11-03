@@ -6,7 +6,7 @@ An **authentication flow** is an ordered tree of steps that Keycloak runs when a
 
 This module shows you how to read and change flows safely. Keep one sentence in mind: **never edit the flow users depend on; copy it, change the copy, then bind the copy.** That way the original stays as a known-good fallback.
 
-The module has three parts. **Authentication Flows, Executions And Requirements** reads the built-in browser flow and explains how flows are bound to a realm. **Password Policy And One-Time Passwords** sets a password policy and builds a flow that asks for a one-time password only from users with the role `stock-admin`; a graded lab follows it. **WebAuthn And Passkeys** prepares the realm for passkeys, the credential that replaces the password.
+The module has four parts. **Authentication Flows, Executions And Requirements** reads the built-in browser flow and explains how flows are bound to a realm. **Password Policy And One-Time Passwords** sets a password policy and builds a flow that asks for a one-time password only from users with the role `stock-admin`; a graded lab follows it. **WebAuthn And Passkeys** prepares the realm for passkeys, the credential that replaces the password. **Step-Up Authentication** asks for a stronger proof only when a client needs it, by mapping ACR names to levels of authentication.
 
 ## Learning objectives
 

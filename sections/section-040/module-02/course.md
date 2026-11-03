@@ -6,7 +6,7 @@ A partner company runs its own Keycloak and its own user accounts. Its staff nee
 
 This module makes a second realm, `partner`, the identity provider for `inventory`. Keep one sentence in mind: **with brokering, the other provider checks the password, and Keycloak trusts its signed token.** That is the difference from federation, where Keycloak checks the password itself.
 
-The module has two parts. **Identity Brokering And Social Login** explains the redirect flow, the first broker login flow and the choices you make for every provider. **Adding An OpenID Connect Identity Provider** registers `inventory` as a client of `partner`, adds `partner` as an identity provider with a mapper, and checks the result; a graded lab follows it.
+The module has four parts. **Identity Brokering And Social Login** explains the redirect flow, the first broker login flow and the choices you make for every provider. **Adding An OpenID Connect Identity Provider** registers `inventory` as a client of `partner`, adds `partner` as an identity provider with a mapper, and checks the result; a graded lab follows it. **Social Identity Providers** adds GitHub with a client ID and secret, and **SAML Identity Providers** adds a SAML 2.0 provider and shares the service provider metadata.
 
 ## Learning objectives
 

@@ -243,3 +243,26 @@ questions:
         explanation: "Not correct. They belong to passwords."
     correct_option: b
     explanation: "Correct. The second-factor use has its own policy and action."
+
+  - id: ats089-030-q11
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain step-up authentication"
+    source_readings:
+      - sections/section-030/module-01/course-04-step-up-authentication.md
+    prompt: "A client sends acr_values=gold. The realm maps gold to level 2 and the user reached level 1. What does Keycloak do?"
+    options:
+      - id: a
+        text: "Rejects the request"
+        explanation: "Not correct. Keycloak asks for more proof instead."
+      - id: b
+        text: "Runs the subflow that provides level 2"
+        explanation: "Correct. It asks for the extra proof only because the reached level is lower."
+      - id: c
+        text: "Issues a token with acr 2 without asking"
+        explanation: "Not correct. The claim reports the level actually reached."
+      - id: d
+        text: "Ignores acr_values"
+        explanation: "Not correct. A mapped value is honored."
+    correct_option: b
+    explanation: "Correct. Keycloak steps up only when the reached level is below the requested one."

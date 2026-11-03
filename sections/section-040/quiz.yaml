@@ -243,3 +243,72 @@ questions:
         explanation: "Not correct. The sync mode does not affect the issuer check."
     correct_option: c
     explanation: "Correct. In development mode the issuer follows the address of the request."
+
+  - id: ats089-040-q11
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Separate connection from bind failures"
+    source_readings:
+      - sections/section-040/module-01/course-04-testing-and-troubleshooting-ldap.md
+    prompt: "testConnection passes but testAuthentication fails. Where is the fault?"
+    options:
+      - id: a
+        text: "The network path to the server"
+        explanation: "Not correct. The connection test passed."
+      - id: b
+        text: "The bind DN or the bind credential"
+        explanation: "Correct. The server answers, but it rejects the sign-in."
+      - id: c
+        text: "The attribute mappers"
+        explanation: "Not correct. Mappers are used after a successful bind."
+      - id: d
+        text: "The sync period"
+        explanation: "Not correct. The sync period does not affect the bind."
+    correct_option: b
+    explanation: "Correct. The two tests split network faults from credential faults."
+
+  - id: ats089-040-q12
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Build the redirect URI of a social provider"
+    source_readings:
+      - sections/section-040/module-02/course-03-social-identity-providers.md
+    prompt: "Which redirect URI do you register at GitHub for an identity provider with alias github in realm inventory?"
+    options:
+      - id: a
+        text: "<server>/realms/inventory/broker/github/endpoint"
+        explanation: "Correct. The alias is part of the broker endpoint."
+      - id: b
+        text: "<server>/realms/inventory/account"
+        explanation: "Not correct. That is the account console."
+      - id: c
+        text: "<server>/admin/inventory/github"
+        explanation: "Not correct. That is not a broker endpoint."
+      - id: d
+        text: "<server>/realms/master/broker/github"
+        explanation: "Not correct. The realm and the endpoint suffix are wrong."
+    correct_option: a
+    explanation: "Correct. The form is server, realms, realm, broker, alias, endpoint."
+
+  - id: ats089-040-q13
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Share the service provider metadata"
+    source_readings:
+      - sections/section-040/module-02/course-04-saml-identity-providers.md
+    prompt: "What does the administrator of a SAML identity provider need from Keycloak?"
+    options:
+      - id: a
+        text: "The realm admin password"
+        explanation: "Not correct. It is never shared."
+      - id: b
+        text: "The SP descriptor of the broker alias"
+        explanation: "Correct. It lists the entity ID, endpoints and keys of Keycloak."
+      - id: c
+        text: "The OIDC client secret"
+        explanation: "Not correct. SAML does not use it."
+      - id: d
+        text: "The database dump"
+        explanation: "Not correct. It is not needed."
+    correct_option: b
+    explanation: "Correct. The IdP refuses messages from an entity it does not know."

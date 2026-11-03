@@ -243,3 +243,26 @@ questions:
         explanation: "Not correct. The scope stays. Full scope allowed is a separate filter."
     correct_option: a
     explanation: "Correct. Turning it off without scope mappings leaves the tokens without roles."
+
+  - id: ats089-020-q11
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Trace a role to its source"
+    source_readings:
+      - sections/section-020/module-01/course-04-tracing-effective-roles.md
+    prompt: "A user holds a client role that does not appear in the list of direct roles. Which command shows it?"
+    options:
+      - id: a
+        text: "kcadm get-roles with --effective"
+        explanation: "Correct. The option expands groups, composites and default roles."
+      - id: b
+        text: "kcadm get-roles without options"
+        explanation: "Not correct. That lists only direct mappings."
+      - id: c
+        text: "kcadm get clients"
+        explanation: "Not correct. That lists clients, not roles of a user."
+      - id: d
+        text: "kcadm get events"
+        explanation: "Not correct. Events record actions, not role sets."
+    correct_option: a
+    explanation: "Correct. The effective list includes roles that arrive through groups and composites."

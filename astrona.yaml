@@ -183,8 +183,11 @@ modules:
           - name: "Server Administration Guide: composite roles"
             url: https://www.keycloak.org/docs/latest/server_admin/index.html#con-composite-roles_server_administration_guide
       - type: reading
+        title: "Tracing Effective Roles"
+        path: sections/section-020/module-01/course-04-tracing-effective-roles.md
+      - type: reading
         title: Summary
-        path: sections/section-020/module-01/course-04-summary.md
+        path: sections/section-020/module-01/course-05-summary.md
 
       - type: reading
         title: Question
@@ -259,8 +262,11 @@ modules:
         title: "WebAuthn And Passkeys"
         path: sections/section-030/module-01/course-03-webauthn-and-passkeys.md
       - type: reading
+        title: "Step-Up Authentication"
+        path: sections/section-030/module-01/course-04-step-up-authentication.md
+      - type: reading
         title: Summary
-        path: sections/section-030/module-01/course-04-summary.md
+        path: sections/section-030/module-01/course-05-summary.md
 
       - type: reading
         title: Question
@@ -336,8 +342,11 @@ modules:
         title: "Edit Modes, Mappers And Synchronization"
         path: sections/section-040/module-01/course-03-edit-modes-mappers-and-sync.md
       - type: reading
+        title: "Testing And Troubleshooting LDAP"
+        path: sections/section-040/module-01/course-04-testing-and-troubleshooting-ldap.md
+      - type: reading
         title: Summary
-        path: sections/section-040/module-01/course-04-summary.md
+        path: sections/section-040/module-01/course-05-summary.md
 
       - type: reading
         title: "Sign Users In Through Another Identity Provider"
@@ -371,8 +380,14 @@ modules:
           - name: "Server Administration Guide: first login flow"
             url: https://www.keycloak.org/docs/latest/server_admin/index.html#_identity_broker_first_login
       - type: reading
+        title: "Social Identity Providers"
+        path: sections/section-040/module-02/course-03-social-identity-providers.md
+      - type: reading
+        title: "SAML Identity Providers"
+        path: sections/section-040/module-02/course-04-saml-identity-providers.md
+      - type: reading
         title: Summary
-        path: sections/section-040/module-02/course-03-summary.md
+        path: sections/section-040/module-02/course-05-summary.md
 
       - type: reading
         title: Question

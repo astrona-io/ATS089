@@ -42,10 +42,10 @@ set up and audited, and who may administer it.
 | Module | Reader | Parts | Labs |
 | --- | --- | --- | --- |
 | 010-01 | [Manage Users Through Their Whole Lifecycle](sections/section-010/module-01/course.md) | 4 | [lab-01](sections/section-010/module-01/labs/lab-01) |
-| 020-01 | [Model Access With Roles, Composite Roles And Groups](sections/section-020/module-01/course.md) | 3 | [lab-01](sections/section-020/module-01/labs/lab-01) |
-| 030-01 | [Control How Users Sign In With Flows, OTP And Passkeys](sections/section-030/module-01/course.md) | 3 | [lab-01](sections/section-030/module-01/labs/lab-01) |
-| 040-01 | [Federate Users From An LDAP Directory](sections/section-040/module-01/course.md) | 3 | [lab-01](sections/section-040/module-01/labs/lab-01) |
-| 040-02 | [Sign Users In Through Another Identity Provider](sections/section-040/module-02/course.md) | 2 | [lab-01](sections/section-040/module-02/labs/lab-01) |
+| 020-01 | [Model Access With Roles, Composite Roles And Groups](sections/section-020/module-01/course.md) | 4 | [lab-01](sections/section-020/module-01/labs/lab-01) |
+| 030-01 | [Control How Users Sign In With Flows, OTP And Passkeys](sections/section-030/module-01/course.md) | 4 | [lab-01](sections/section-030/module-01/labs/lab-01) |
+| 040-01 | [Federate Users From An LDAP Directory](sections/section-040/module-01/course.md) | 4 | [lab-01](sections/section-040/module-01/labs/lab-01) |
+| 040-02 | [Sign Users In Through Another Identity Provider](sections/section-040/module-02/course.md) | 4 | [lab-01](sections/section-040/module-02/labs/lab-01) |
 | 050-01 | [Configure Login, Email And Display Settings Of A Realm](sections/section-050/module-01/course.md) | 4 | [lab-01](sections/section-050/module-01/labs/lab-01) |
 | 050-02 | [Control Sessions, Token Lifespans And Offline Access](sections/section-050/module-02/course.md) | 4 | [lab-01](sections/section-050/module-02/labs/lab-01) |
 | 050-03 | [Record And Read Events And Admin Events](sections/section-050/module-03/course.md) | 4 | [lab-01](sections/section-050/module-03/labs/lab-01) |

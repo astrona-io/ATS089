@@ -6,7 +6,7 @@ The company directory already holds every employee: their username, their name, 
 
 This module connects the realm `inventory` to an OpenLDAP server. Keep one sentence in mind: **with federation, the directory stays the source of truth, and Keycloak checks passwords against it.** Each part shows one side of that link.
 
-The module has three parts. **LDAP Federation And The User Storage SPI** explains how an LDAP directory is organised and how Keycloak plugs it in. **Connecting Keycloak To OpenLDAP** creates the provider and signs a directory user in; a graded lab follows it. **Edit Modes, Mappers And Synchronization** covers who may change what, how attributes and groups are copied, and when Keycloak reads the directory.
+The module has four parts. **LDAP Federation And The User Storage SPI** explains how an LDAP directory is organised and how Keycloak plugs it in. **Connecting Keycloak To OpenLDAP** creates the provider and signs a directory user in; a graded lab follows it. **Edit Modes, Mappers And Synchronization** covers who may change what, how attributes and groups are copied, and when Keycloak reads the directory. **Testing And Troubleshooting LDAP** tests the connection, the bind and the users DN one at a time.
 
 ## Learning objectives
 

@@ -6,7 +6,7 @@ A **role** in Keycloak is a named permission, such as `stock-write`, that you gi
 
 This module answers that question from the bottom up. Keep one sentence in mind: **a role reaches a token only if it is mapped to the user, directly or through a composite role or a group, and only if the client's scope lets it through.** Each part adds one link in that chain.
 
-The module has three parts. **Realm Roles And Client Roles** shows the two kinds of role and how a direct mapping reaches a token. **Composite Roles And Default Roles** shows how one role can contain others, and which roles every new user gets. **Group Role Mappings And Roles In Tokens** shows how groups give roles to their members, and how the client scope `roles` writes them into the token; a graded lab follows it.
+The module has four parts. **Realm Roles And Client Roles** shows the two kinds of role and how a direct mapping reaches a token. **Composite Roles And Default Roles** shows how one role can contain others, and which roles every new user gets. **Group Role Mappings And Roles In Tokens** shows how groups give roles to their members, and how the client scope `roles` writes them into the token; a graded lab follows it. **Tracing Effective Roles** gives a four-step method to find where a role comes from, or why it is missing.
 
 ## Learning objectives
 
