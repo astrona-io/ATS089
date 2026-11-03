@@ -1,4 +1,4 @@
-# Final domain knowledge check across all four sections.
+# Final domain knowledge check across all six sections.
 schema_version: 1
 kind: question_bank
 id: ats089-final
@@ -286,3 +286,141 @@ questions:
         explanation: "Not correct. That is the discovery document."
     correct_option: b
     explanation: "Correct. The alias is part of the path."
+
+  - id: ats089-final-q13
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Describe events and admin events"
+    source_readings:
+      - sections/section-050/module-03/course-01-user-events.md
+    prompt: "A realm turns on user events today. Which period can the events cover?"
+    options:
+      - id: a
+        text: "The last month."
+        explanation: "Not correct. No history exists from before."
+      - id: b
+        text: "From today only."
+        explanation: "Correct. Events are recorded from the moment they are turned on."
+      - id: c
+        text: "The last year."
+        explanation: "Not correct. No history exists from before."
+      - id: d
+        text: "All time, because Keycloak always records them."
+        explanation: "Not correct. Nothing is stored while events are off."
+    correct_option: b
+    explanation: "Correct. Events are recorded from the moment they are turned on."
+
+  - id: ats089-final-q14
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Set session and token lifespans"
+    source_readings:
+      - sections/section-050/module-02/course-02-token-lifespans.md
+    prompt: "How is the access token lifespan of one client set apart from the realm value?"
+    options:
+      - id: a
+        text: "With ssoSessionIdleTimeout on the client."
+        explanation: "Not correct. That is a realm session field."
+      - id: b
+        text: "With offlineSessionMaxLifespan."
+        explanation: "Not correct. That belongs to offline sessions."
+      - id: c
+        text: "With the client attribute access.token.lifespan."
+        explanation: "Correct. The client value overrides the realm value."
+      - id: d
+        text: "It cannot be set per client."
+        explanation: "Not correct. A client attribute can override it."
+    correct_option: c
+    explanation: "Correct. The client value overrides the realm value."
+
+  - id: ats089-final-q15
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Find the cause of a failed sign-in"
+    source_readings:
+      - sections/section-050/module-03/course-03-finding-a-failed-sign-in.md
+    prompt: "A password request returns invalid_grant. Where is the exact cause?"
+    options:
+      - id: a
+        text: "In the error field of the LOGIN_ERROR event."
+        explanation: "Correct. The response hides the cause on purpose."
+      - id: b
+        text: "In the HTTP status line."
+        explanation: "Not correct. It does not name the cause."
+      - id: c
+        text: "In the realm name."
+        explanation: "Not correct. It holds no information about the failure."
+      - id: d
+        text: "In the access token."
+        explanation: "Not correct. No token is issued."
+    correct_option: a
+    explanation: "Correct. The response hides the cause on purpose."
+
+  - id: ats089-final-q16
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Enable organizations and create one"
+    source_readings:
+      - sections/section-060/module-01/course-01-enabling-and-creating-organizations.md
+    prompt: "Which statement about an organization is true?"
+    options:
+      - id: a
+        text: "It is a separate realm with its own users."
+        explanation: "Not correct. Users stay in the realm."
+      - id: b
+        text: "It is a client of the realm."
+        explanation: "Not correct. It is not a client."
+      - id: c
+        text: "It is a role of the user."
+        explanation: "Not correct. It is not a role."
+      - id: d
+        text: "It groups users inside one realm."
+        explanation: "Correct. It is not a second realm."
+    correct_option: d
+    explanation: "Correct. It is not a second realm."
+
+  - id: ats089-final-q17
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Add and remove organization members"
+    source_readings:
+      - sections/section-060/module-01/course-03-members.md
+    prompt: "An unmanaged member is removed from an organization. What happens to the account?"
+    options:
+      - id: a
+        text: "It is deleted."
+        explanation: "Not correct. That applies to a managed account."
+      - id: b
+        text: "It stays in the realm."
+        explanation: "Correct. Only a managed account is removed with the organization."
+      - id: c
+        text: "It is disabled."
+        explanation: "Not correct. Removal does not disable it."
+      - id: d
+        text: "It moves to the master realm."
+        explanation: "Not correct. Accounts never move realms."
+    correct_option: b
+    explanation: "Correct. Only a managed account is removed with the organization."
+
+  - id: ats089-final-q18
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Choose realm-management roles for a task"
+    source_readings:
+      - sections/section-060/module-02/course-03-proving-what-an-administrator-can-do.md
+    prompt: "Which is the safest way to test a delegated administrator?"
+    options:
+      - id: a
+        text: "Call the API as the master admin."
+        explanation: "Not correct. The master admin passes every check."
+      - id: b
+        text: "Read the role list in the console."
+        explanation: "Not correct. A list does not prove behavior."
+      - id: c
+        text: "Request a token for that user and call the Admin API."
+        explanation: "Correct. Only the delegated account shows its real rights."
+      - id: d
+        text: "Restart Keycloak and read the log."
+        explanation: "Not correct. A restart proves nothing about roles."
+    correct_option: c
+    explanation: "Correct. Only the delegated account shows its real rights."

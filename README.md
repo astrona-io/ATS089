@@ -28,9 +28,12 @@ contains:
 | [020](sections/section-020) | Roles, Composite Roles And Groups | 1 | 1 + capstone | Roles and groups |
 | [030](sections/section-030) | Authentication Flows, MFA And Passkeys | 1 | 1 + capstone | Authentication |
 | [040](sections/section-040) | User Federation And Identity Brokering | 2 | 2 + capstone | Federation and brokering |
+| [050](sections/section-050) | Realm Settings, Sessions And Auditing | 3 | 3 + capstone | Realm settings, sessions and events |
+| [060](sections/section-060) | Organizations And Administration Delegation | 2 | 2 + capstone | Organizations and delegated administration |
 
 The order follows one user through a realm: who they are, what they may do,
-how they prove who they are, and finally users who live outside Keycloak.
+how they prove who they are, users who live outside Keycloak, how the realm is
+set up and audited, and who may administer it.
 
 ---
 
@@ -38,11 +41,16 @@ how they prove who they are, and finally users who live outside Keycloak.
 
 | Module | Reader | Parts | Labs |
 | --- | --- | --- | --- |
-| 010-01 | [Manage Users Through Their Whole Lifecycle](sections/section-010/module-01/course.md) | 3 | [lab-01](sections/section-010/module-01/labs/lab-01) |
+| 010-01 | [Manage Users Through Their Whole Lifecycle](sections/section-010/module-01/course.md) | 4 | [lab-01](sections/section-010/module-01/labs/lab-01) |
 | 020-01 | [Model Access With Roles, Composite Roles And Groups](sections/section-020/module-01/course.md) | 3 | [lab-01](sections/section-020/module-01/labs/lab-01) |
 | 030-01 | [Control How Users Sign In With Flows, OTP And Passkeys](sections/section-030/module-01/course.md) | 3 | [lab-01](sections/section-030/module-01/labs/lab-01) |
 | 040-01 | [Federate Users From An LDAP Directory](sections/section-040/module-01/course.md) | 3 | [lab-01](sections/section-040/module-01/labs/lab-01) |
 | 040-02 | [Sign Users In Through Another Identity Provider](sections/section-040/module-02/course.md) | 2 | [lab-01](sections/section-040/module-02/labs/lab-01) |
+| 050-01 | [Configure Login, Email And Display Settings Of A Realm](sections/section-050/module-01/course.md) | 4 | [lab-01](sections/section-050/module-01/labs/lab-01) |
+| 050-02 | [Control Sessions, Token Lifespans And Offline Access](sections/section-050/module-02/course.md) | 4 | [lab-01](sections/section-050/module-02/labs/lab-01) |
+| 050-03 | [Record And Read Events And Admin Events](sections/section-050/module-03/course.md) | 4 | [lab-01](sections/section-050/module-03/labs/lab-01) |
+| 060-01 | [Group Users Into Organizations](sections/section-060/module-01/course.md) | 4 | [lab-01](sections/section-060/module-01/labs/lab-01) |
+| 060-02 | [Delegate Administration With Realm-Management Roles](sections/section-060/module-02/course.md) | 4 | [lab-01](sections/section-060/module-02/labs/lab-01) |
 
 ---
 
@@ -54,6 +62,8 @@ how they prove who they are, and finally users who live outside Keycloak.
 | [020](sections/section-020/capstone/labs/lab-01) | Repair A Broken Role Model | an incomplete composite role, a wrong group mapping, a missing client scope |
 | [030](sections/section-030/capstone/labs/lab-01) | Require A Second Factor For Administrators | a disabled conditional subflow, disabled required actions, a weak passkey policy |
 | [040](sections/section-040/capstone/labs/lab-01) | Fix A Federation That Lost Its Users | a stale bind credential, a wrong users DN, no group mapper |
+| [050](sections/section-050/capstone/labs/lab-01) | Fix A Realm That Locks Users Out | a disabled user found through events, short session and token limits, two login options off |
+| [060](sections/section-060/capstone/labs/lab-01) | Delegate Administration Of Organizations | realm-admin held by mistake, a team lead without roles, a missing organization member |
 
 ---
 

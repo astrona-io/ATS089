@@ -1,0 +1,52 @@
+# Turn On Events And Find A Failed Sign-In
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-lab-050-03"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1 and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-lab-050-03-setup"
+      description: "Creates the realm inventory, alice and the client inventory-cli with all events off"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+validation:
+  scripts:
+    - name: "validate-event-config"
+      description: "Confirms user events, the three event types, the expiration and admin events with details"
+      type: "file"
+      source: "validation/validate-event-config.sh"
+    - name: "validate-failed-login-event"
+      description: "Confirms a LOGIN_ERROR event with invalid_user_credentials for alice"
+      type: "file"
+      source: "validation/validate-failed-login-event.sh"
+    - name: "validate-admin-event"
+      description: "Confirms an admin event that created the group ops-audit with its representation"
+      type: "file"
+      source: "validation/validate-admin-event.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - nicolaka/netshoot:v0.13
+      - quay.io/keycloak/keycloak:26.8.1

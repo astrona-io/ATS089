@@ -432,7 +432,8 @@ ATS016: `title`, `path`, `difficulty`, `estimated_duration`, `topic`,
 - `difficulty`: `beginner`, `intermediate` or `advanced`.
 - `estimated_duration`: realistic time to solve it, for example `15m`, `30m`.
 - `topic`: exactly one of `users`, `roles`, `authentication`, `mfa`,
-  `federation`, `brokering`.
+  `federation`, `brokering`, `realm-settings`, `sessions`, `events`,
+  `organizations`, `admin-delegation`.
 - `task_kind`: exactly one of `build`, `troubleshooting` or `migration`.
 - `tags`: 4 to 8 ids, only from the tag list below. Add a new tag to the list
   first if nothing fits.
@@ -453,6 +454,10 @@ ATS016: `title`, `path`, `difficulty`, `estimated_duration`, `topic`,
 - Federation and brokering: `ldap`, `user-federation`, `user-storage-spi`,
   `edit-mode`, `ldap-mappers`, `ldap-sync`, `identity-brokering`,
   `oidc-identity-provider`, `idp-mappers`, `first-broker-login`
+- Realm settings and auditing: `realm-settings`, `sessions`, `token-lifespan`,
+  `offline-tokens`, `events`, `admin-events`, `audit`, `troubleshooting`
+- Organizations and delegation: `organizations`, `members`, `domains`,
+  `realm-management`, `roles`, `delegation`, `admin-api`, `least-privilege`
 
 ### Running things
 

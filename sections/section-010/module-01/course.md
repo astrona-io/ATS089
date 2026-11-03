@@ -6,7 +6,7 @@ A **user** in Keycloak is an account in one realm. A **realm** is a space in Key
 
 This module follows a user through their whole life in a realm. Keep one sentence in mind: **a correct password is not enough; the account must also be enabled, complete and free of pending tasks.** Each part looks at one of those conditions and shows how to read it and fix it from the terminal.
 
-The module has three parts. **Users And The Declarative User Profile** explains the realm's rules for user attributes and why a missing last name blocks a user. **Credentials, Temporary Passwords And Required Actions** covers passwords and the tasks Keycloak can put between a user and their token, and a graded lab follows it. **Groups, Disabling Users And Impersonation** covers groups, ending a user's access without deleting them, and signing in as another user to see what they see.
+The module has four parts. **Users And The Declarative User Profile** explains the realm's rules for user attributes and why a missing last name blocks a user. **Credentials, Temporary Passwords And Required Actions** covers passwords and the tasks Keycloak can put between a user and their token, and a graded lab follows it. **Groups, Disabling Users And Impersonation** covers groups, ending a user's access without deleting them, and signing in as another user to see what they see. **Searching Users And Bulk Work With kcadm** covers finding, counting and paging through users, and loading many users in one call.
 
 ## Learning objectives
 
@@ -19,6 +19,7 @@ After this module you can:
 - Add users to a group and remove them.
 - Disable a user and end all of their sessions.
 - Explain what administrator impersonation does and which role allows it.
+- Search, count and page through users, and load many users with one `partialImport` call.
 
 ## Before you start
 

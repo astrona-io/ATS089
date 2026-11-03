@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# OS prep for the "Group Users Into Organizations" playground (`ats-089-playground-060-01`).
+#
+# Environment preparation only. There is no task and no grading.
+set -euo pipefail
+
+NAMESPACE="orgs-demo"
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MANIFEST_DIR=""
+for candidate in "$SCRIPT_DIR/../manifests" "./manifests" "$SCRIPT_DIR/manifests"; do
+  [ -d "$candidate" ] && { MANIFEST_DIR="$candidate"; break; }
+done
+
+# lab-start.yaml is also listed under bootstrap.manifests in config.yaml, so it
+# may already be applied. kubectl apply is idempotent.
+if [ -n "$MANIFEST_DIR" ] && [ -f "$MANIFEST_DIR/lab-start.yaml" ]; then
+  echo "[playground] Applying starting workloads..."
+  kubectl apply -f "$MANIFEST_DIR/lab-start.yaml"
+fi
+
+echo "[playground] Waiting for Keycloak (this can take a few minutes)..."
+kubectl -n "$NAMESPACE" rollout status deployment/keycloak --timeout=600s
+kubectl -n "$NAMESPACE" rollout status deployment/tester --timeout=300s
+
+kcadm() {
+  kubectl -n "$NAMESPACE" exec -i deploy/keycloak -- \
+    /opt/keycloak/bin/kcadm.sh "$@" --config /tmp/kcadm.config
+}
+user_id() {
+  # user_id REALM USERNAME: prints the user's ID, or nothing.
+  kcadm get users -r "$1" -q username="$2" -q exact=true --fields id --format csv --noquotes | tr -d '\r'
+}
+client_uuid() {
+  # client_uuid REALM CLIENT_ID: prints the client's internal ID, or nothing.
+  kcadm get clients -r "$1" -q clientId="$2" --fields id --format csv --noquotes | tr -d '\r'
+}
+create_user() {
+  # create_user REALM USERNAME PASSWORD FIRST_NAME LAST_NAME
+  if [ -z "$(user_id "$1" "$2")" ]; then
+    kcadm create users -r "$1" -s username="$2" -s enabled=true \
+      -s email="$2@example.com" -s emailVerified=true \
+      -s firstName="$4" -s lastName="$5"
+    kcadm set-password -r "$1" --username "$2" --new-password "$3"
+  fi
+}
+in_tester_jq() {
+  # in_tester_jq FILTER: runs jq in the tester pod on standard input.
+  kubectl -n "$NAMESPACE" exec -i deploy/tester -- jq "$@"
+}
+
+# The bootstrap administrator can need a few seconds after /health/ready.
+for _ in $(seq 1 30); do
+  kcadm config credentials --server http://localhost:8080 --realm master \
+    --user admin --password admin >/dev/null 2>&1 && break
+  sleep 5
+done
+kcadm config credentials --server http://localhost:8080 --realm master --user admin --password admin
+
+echo "[setup] Creating the realm inventory, the users alice and bob and the client inventory-cli..."
+kcadm get realms/inventory >/dev/null 2>&1 || kcadm create realms -s realm=inventory -s enabled=true
+create_user inventory alice alice-password Alice Example
+create_user inventory bob bob-password Bob Example
+if [ -z "$(client_uuid inventory inventory-cli)" ]; then
+  kcadm create clients -r inventory -s clientId=inventory-cli -s enabled=true \
+    -s publicClient=true -s standardFlowEnabled=false -s directAccessGrantsEnabled=true
+fi
+kcadm update realms/inventory -s organizationsEnabled=false
+
+echo "[playground] Ready."
+kubectl -n "$NAMESPACE" get pods -o wide
+echo "[playground] Keycloak answers at http://keycloak:8080 from the tester pod."

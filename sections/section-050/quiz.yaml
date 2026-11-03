@@ -1,0 +1,705 @@
+# Knowledge check for section 050. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats089-050
+course_id: ATS089
+exam_code: KEYCLOAK
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-050
+  title: "Realm Settings, Sessions And Auditing"
+placement:
+  position: after
+  reading: sections/section-050/capstone/labs/lab-01/question.md
+questions:
+  - id: ats089-050-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the realm field behind a login option"
+    source_readings:
+      - sections/section-050/module-01/course-01-login-options-of-a-realm.md
+    prompt: "Which realm field shows the Register link on the sign-in page?"
+    options:
+      - id: a
+        text: "registrationAllowed"
+        explanation: "Correct. The field registrationAllowed turns user self-registration on."
+      - id: b
+        text: "resetPasswordAllowed"
+        explanation: "Not correct. This field shows the Forgot Password link."
+      - id: c
+        text: "rememberMe"
+        explanation: "Not correct. This field shows the remember me checkbox."
+      - id: d
+        text: "editUsernameAllowed"
+        explanation: "Not correct. This field lets users change their username."
+    correct_option: a
+    explanation: "Correct. The field registrationAllowed turns user self-registration on."
+
+  - id: ats089-050-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain the effect of duplicate emails"
+    source_readings:
+      - sections/section-050/module-01/course-01-login-options-of-a-realm.md
+    prompt: "What does Keycloak do to loginWithEmailAllowed when duplicateEmailsAllowed is turned on?"
+    options:
+      - id: a
+        text: "It leaves loginWithEmailAllowed on and picks the newest user."
+        explanation: "Not correct. Keycloak never guesses between users."
+      - id: b
+        text: "It turns loginWithEmailAllowed off."
+        explanation: "Correct. An address that belongs to two users cannot identify one of them, so Keycloak applies this rule when the realm is saved."
+      - id: c
+        text: "It turns registrationAllowed off."
+        explanation: "Not correct. The two fields are not related."
+      - id: d
+        text: "It turns verifyEmail on."
+        explanation: "Not correct. Duplicate emails do not change email verification."
+    correct_option: b
+    explanation: "Correct. An address that belongs to two users cannot identify one of them, so Keycloak applies this rule when the realm is saved."
+
+  - id: ats089-050-q03
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Find where a realm keeps its email server"
+    source_readings:
+      - sections/section-050/module-01/course-02-email-settings-and-verification.md
+    prompt: "Which realm field holds the SMTP server settings?"
+    options:
+      - id: a
+        text: "emailTheme"
+        explanation: "Not correct. This field selects the look of emails, not the server."
+      - id: b
+        text: "verifyEmail"
+        explanation: "Not correct. This field makes users prove their address."
+      - id: c
+        text: "smtpServer"
+        explanation: "Correct. The field smtpServer holds host, port, from, auth and the other values."
+      - id: d
+        text: "mailServer"
+        explanation: "Not correct. Keycloak has no field with this name."
+    correct_option: c
+    explanation: "Correct. The field smtpServer holds host, port, from, auth and the other values."
+
+  - id: ats089-050-q04
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Predict what happens when verifyEmail has no SMTP server"
+    source_readings:
+      - sections/section-050/module-01/course-02-email-settings-and-verification.md
+    prompt: "verifyEmail is on and the realm has no working SMTP server. What happens to a user whose emailVerified is false?"
+    options:
+      - id: a
+        text: "Keycloak marks the address as verified after one day."
+        explanation: "Not correct. Keycloak does not verify addresses by itself."
+      - id: b
+        text: "The user signs in and sees a warning."
+        explanation: "Not correct. The required action blocks the sign-in."
+      - id: c
+        text: "Keycloak turns verifyEmail off."
+        explanation: "Not correct. Keycloak never changes this setting by itself."
+      - id: d
+        text: "The user cannot finish signing in, because the verification message never arrives."
+        explanation: "Correct. The required action VERIFY_EMAIL holds the user until they follow the link in the email."
+    correct_option: d
+    explanation: "Correct. The required action VERIFY_EMAIL holds the user until they follow the link in the email."
+
+  - id: ats089-050-q05
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Change one nested SMTP value safely"
+    source_readings:
+      - sections/section-050/module-01/course-02-email-settings-and-verification.md
+    prompt: "How do you change only the SMTP port with kcadm.sh and keep the other SMTP values?"
+    options:
+      - id: a
+        text: "Use -s smtpServer={\"port\":\"587\"}"
+        explanation: "Not correct. This replaces the whole smtpServer value, so host and from are lost."
+      - id: b
+        text: "Use the dotted name: -s smtpServer.port=587"
+        explanation: "Correct. A dotted name sets one value inside smtpServer."
+      - id: c
+        text: "Delete the realm and create it again"
+        explanation: "Not correct. This deletes every user and client."
+      - id: d
+        text: "Edit the port in the tester pod"
+        explanation: "Not correct. The tester pod does not hold realm settings."
+    correct_option: b
+    explanation: "Correct. A dotted name sets one value inside smtpServer."
+
+  - id: ats089-050-q06
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Order the language choice"
+    source_readings:
+      - sections/section-050/module-01/course-03-localization-and-themes.md
+    prompt: "In what order does Keycloak choose the language of a page?"
+    options:
+      - id: a
+        text: "The realm default, then the browser's language."
+        explanation: "Not correct. The realm default is used last."
+      - id: b
+        text: "The browser's language, then the user's saved language."
+        explanation: "Not correct. The saved language of the user comes first."
+      - id: c
+        text: "The user's saved language, then the browser's language, then the realm default."
+        explanation: "Correct. This is the order Keycloak applies when internationalization is on."
+      - id: d
+        text: "Always the first language in supportedLocales."
+        explanation: "Not correct. The list order does not decide the language."
+    correct_option: c
+    explanation: "Correct. This is the order Keycloak applies when internationalization is on."
+
+  - id: ats089-050-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Enable more than one language"
+    source_readings:
+      - sections/section-050/module-01/course-03-localization-and-themes.md
+    prompt: "Which field must be true for supportedLocales to have any effect?"
+    options:
+      - id: a
+        text: "internationalizationEnabled"
+        explanation: "Correct. Without it, the realm shows one language and no selector."
+      - id: b
+        text: "rememberMe"
+        explanation: "Not correct. This field is about sessions."
+      - id: c
+        text: "registrationAllowed"
+        explanation: "Not correct. This field is about self-registration."
+      - id: d
+        text: "defaultLocale"
+        explanation: "Not correct. This field names the default but does not switch internationalization on."
+    correct_option: a
+    explanation: "Correct. Without it, the realm shows one language and no selector."
+
+  - id: ats089-050-q08
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the four themes"
+    source_readings:
+      - sections/section-050/module-01/course-03-localization-and-themes.md
+    prompt: "Which list names the four theme fields of a realm?"
+    options:
+      - id: a
+        text: "loginTheme, mailTheme, apiTheme and clientTheme"
+        explanation: "Not correct. Keycloak has no mailTheme, apiTheme or clientTheme."
+      - id: b
+        text: "loginTheme and accountTheme only"
+        explanation: "Not correct. There are also an admin theme and an email theme."
+      - id: c
+        text: "theme, locale, display and email"
+        explanation: "Not correct. These are not realm theme fields."
+      - id: d
+        text: "loginTheme, accountTheme, adminTheme and emailTheme"
+        explanation: "Correct. Each field styles one kind of page."
+    correct_option: d
+    explanation: "Correct. Each field styles one kind of page."
+
+  - id: ats089-050-q09
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Tell the realm name from its display name"
+    source_readings:
+      - sections/section-050/module-01/course-03-localization-and-themes.md
+    prompt: "Which field changes only the name users read on the sign-in page, without changing URLs?"
+    options:
+      - id: a
+        text: "realm"
+        explanation: "Not correct. This field is the name in every URL."
+      - id: b
+        text: "displayName"
+        explanation: "Correct. The field realm is the fixed name in URLs; displayName is text for users."
+      - id: c
+        text: "loginTheme"
+        explanation: "Not correct. This field selects a theme."
+      - id: d
+        text: "defaultLocale"
+        explanation: "Not correct. This field selects a language."
+    correct_option: b
+    explanation: "Correct. The field realm is the fixed name in URLs; displayName is text for users."
+
+  - id: ats089-050-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read a change back"
+    source_readings:
+      - sections/section-050/module-01/course-04-reading-and-changing-the-realm-representation.md
+    prompt: "What does kcadm update realms/inventory -s rememberMe=true do to the other fields?"
+    options:
+      - id: a
+        text: "It leaves them unchanged: Keycloak reads the document, changes the named field and sends the whole document back."
+        explanation: "Correct. An update merges the named fields into the current document."
+      - id: b
+        text: "It resets every other field to its default."
+        explanation: "Not correct. Fields you did not name keep their values."
+      - id: c
+        text: "It deletes the realm attributes."
+        explanation: "Not correct. Attributes stay as they were."
+      - id: d
+        text: "It changes the same field in the master realm."
+        explanation: "Not correct. Only the realm named with -r is changed."
+    correct_option: a
+    explanation: "Correct. An update merges the named fields into the current document."
+
+  - id: ats089-050-q11
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Read the session limits"
+    source_readings:
+      - sections/section-050/module-02/course-01-sso-session-settings.md
+    prompt: "What does the realm field ssoSessionIdleTimeout set?"
+    options:
+      - id: a
+        text: "How many seconds a session may go unused before it ends."
+        explanation: "Correct. Each use of the session restarts the idle clock."
+      - id: b
+        text: "The maximum age of a session, however active the user is."
+        explanation: "Not correct. That is ssoSessionMaxLifespan."
+      - id: c
+        text: "The lifetime of an access token."
+        explanation: "Not correct. That is accessTokenLifespan."
+      - id: d
+        text: "How long the sign-in page may stay open."
+        explanation: "Not correct. That is accessCodeLifespanLogin."
+    correct_option: a
+    explanation: "Correct. Each use of the session restarts the idle clock."
+
+  - id: ats089-050-q12
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Set valid session limits"
+    source_readings:
+      - sections/section-050/module-02/course-01-sso-session-settings.md
+    prompt: "What happens if you set ssoSessionIdleTimeout larger than ssoSessionMaxLifespan?"
+    options:
+      - id: a
+        text: "Keycloak lowers the maximum to match."
+        explanation: "Not correct. Keycloak does not change the other value."
+      - id: b
+        text: "Keycloak refuses the update, because the idle limit must not exceed the maximum."
+        explanation: "Correct. The two values must be consistent."
+      - id: c
+        text: "The idle limit is ignored silently."
+        explanation: "Not correct. The update is refused."
+      - id: d
+        text: "Every session ends at once."
+        explanation: "Not correct. Nothing ends; the update fails."
+    correct_option: b
+    explanation: "Correct. The two values must be consistent."
+
+  - id: ats089-050-q13
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Know the default access token lifespan"
+    source_readings:
+      - sections/section-050/module-02/course-02-token-lifespans.md
+    prompt: "What is the default access token lifespan of a new realm?"
+    options:
+      - id: a
+        text: "300 seconds, which is five minutes."
+        explanation: "Correct. accessTokenLifespan defaults to 300."
+      - id: b
+        text: "60 seconds."
+        explanation: "Not correct. That is the default of the authorization code lifespan."
+      - id: c
+        text: "1800 seconds."
+        explanation: "Not correct. That is the default SSO idle limit."
+      - id: d
+        text: "36000 seconds."
+        explanation: "Not correct. That is the default SSO session maximum."
+    correct_option: a
+    explanation: "Correct. accessTokenLifespan defaults to 300."
+
+  - id: ats089-050-q14
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Override a lifespan for one client"
+    source_readings:
+      - sections/section-050/module-02/course-02-token-lifespans.md
+    prompt: "How do you give one client a longer access token than the realm?"
+    options:
+      - id: a
+        text: "Set accessTokenLifespan on the realm to a larger value."
+        explanation: "Not correct. That changes every client."
+      - id: b
+        text: "Set offlineSessionIdleTimeout on the client."
+        explanation: "Not correct. That is a realm setting for offline sessions."
+      - id: c
+        text: "Set the client attribute access.token.lifespan."
+        explanation: "Correct. A client attribute wins over the realm value for that client only."
+      - id: d
+        text: "Set the realm attribute clientTokenLifespan."
+        explanation: "Not correct. Keycloak has no such attribute."
+    correct_option: c
+    explanation: "Correct. A client attribute wins over the realm value for that client only."
+
+  - id: ats089-050-q15
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Prove a lifespan from a token"
+    source_readings:
+      - sections/section-050/module-02/course-02-token-lifespans.md
+    prompt: "How can you prove the lifespan of an access token from the token itself?"
+    options:
+      - id: a
+        text: "Read the typ claim."
+        explanation: "Not correct. The typ claim names the token type."
+      - id: b
+        text: "Subtract the iat claim from the exp claim."
+        explanation: "Correct. exp is the expiry time and iat is the issue time, both in seconds."
+      - id: c
+        text: "Read the aud claim."
+        explanation: "Not correct. The aud claim names the audience."
+      - id: d
+        text: "Count the characters of the token."
+        explanation: "Not correct. Length says nothing about the lifetime."
+    correct_option: b
+    explanation: "Correct. exp is the expiry time and iat is the issue time, both in seconds."
+
+  - id: ats089-050-q16
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Request an offline token"
+    source_readings:
+      - sections/section-050/module-02/course-03-offline-tokens.md
+    prompt: "Which scope makes Keycloak issue an offline token?"
+    options:
+      - id: a
+        text: "offline"
+        explanation: "Not correct. Keycloak has no scope with this name."
+      - id: b
+        text: "refresh_token"
+        explanation: "Not correct. This is a token type, not a scope."
+      - id: c
+        text: "openid"
+        explanation: "Not correct. This scope asks for an ID token."
+      - id: d
+        text: "offline_access"
+        explanation: "Correct. A client asks for this scope and the user needs the offline_access realm role."
+    correct_option: d
+    explanation: "Correct. A client asks for this scope and the user needs the offline_access realm role."
+
+  - id: ats089-050-q17
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Revoke offline access"
+    source_readings:
+      - sections/section-050/module-02/course-03-offline-tokens.md
+    prompt: "How do you remove an offline session with the Admin REST API?"
+    options:
+      - id: a
+        text: "Delete sessions/<id> with the query parameter isOffline=true."
+        explanation: "Correct. Without the parameter Keycloak looks for an online session."
+      - id: b
+        text: "Call users/<id>/logout."
+        explanation: "Not correct. That ends online sessions only."
+      - id: c
+        text: "Call logout-all."
+        explanation: "Not correct. That ends online sessions of every user."
+      - id: d
+        text: "Wait for accessTokenLifespan."
+        explanation: "Not correct. The offline session does not expire with the access token."
+    correct_option: a
+    explanation: "Correct. Without the parameter Keycloak looks for an online session."
+
+  - id: ats089-050-q18
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Know what logout leaves open"
+    source_readings:
+      - sections/section-050/module-02/course-04-administering-sessions.md
+    prompt: "An administrator ends a user's session. What happens to an access token that user already holds?"
+    options:
+      - id: a
+        text: "It stops working at once."
+        explanation: "Not correct. Tokens are signed documents; APIs do not ask Keycloak by default."
+      - id: b
+        text: "It stays valid until its exp, unless the API asks Keycloak through introspection."
+        explanation: "Correct. An API that checks only the signature and exp does not learn about the logout."
+      - id: c
+        text: "Keycloak deletes it from the client."
+        explanation: "Not correct. Keycloak cannot reach the token."
+      - id: d
+        text: "It stays valid for 24 hours."
+        explanation: "Not correct. It stays valid until its own exp."
+    correct_option: b
+    explanation: "Correct. An API that checks only the signature and exp does not learn about the logout."
+
+  - id: ats089-050-q19
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "List client sessions"
+    source_readings:
+      - sections/section-050/module-02/course-04-administering-sessions.md
+    prompt: "Which call returns, for each client, the number of active and offline sessions?"
+    options:
+      - id: a
+        text: "client-session-stats"
+        explanation: "Correct. It lists clientId, active and offline for clients with sessions."
+      - id: b
+        text: "users/count"
+        explanation: "Not correct. This counts users."
+      - id: c
+        text: "realms/inventory/sessions"
+        explanation: "Not correct. This is not an Admin REST API call."
+      - id: d
+        text: "sessions-stats"
+        explanation: "Not correct. Keycloak has no call with this name."
+    correct_option: a
+    explanation: "Correct. It lists clientId, active and offline for clients with sessions."
+
+  - id: ats089-050-q20
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose the right logout size"
+    source_readings:
+      - sections/section-050/module-02/course-04-administering-sessions.md
+    prompt: "Which call ends only the online sessions of one user?"
+    options:
+      - id: a
+        text: "POST logout-all"
+        explanation: "Not correct. This ends every session of the realm."
+      - id: b
+        text: "DELETE users/<id>"
+        explanation: "Not correct. This deletes the user."
+      - id: c
+        text: "POST users/<id>/logout"
+        explanation: "Correct. It ends that user's sessions and leaves other users alone."
+      - id: d
+        text: "POST push-revocation"
+        explanation: "Not correct. This only notifies clients that have an admin URL."
+    correct_option: c
+    explanation: "Correct. It ends that user's sessions and leaves other users alone."
+
+  - id: ats089-050-q21
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Turn on user events and choose the event types"
+    source_readings:
+      - sections/section-050/module-03/course-01-user-events.md
+    prompt: "A realm has had events off for a month. An administrator turns them on today. What can be read about last week?"
+    options:
+      - id: a
+        text: "All sign-ins, because Keycloak always records them in the database."
+        explanation: "Not correct. Nothing is stored while events are off."
+      - id: b
+        text: "Nothing. Events are recorded only from the moment they are turned on."
+        explanation: "Correct. Keycloak does not keep a hidden history for a disabled setting."
+      - id: c
+        text: "Only the failed sign-ins."
+        explanation: "Not correct. Failed sign-ins are not stored while events are off either."
+      - id: d
+        text: "Everything, once the administrator exports it."
+        explanation: "Not correct. An export contains only what was stored."
+    correct_option: b
+    explanation: "Correct. Keycloak does not keep a hidden history for a disabled setting."
+
+  - id: ats089-050-q22
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Turn on user events and choose the event types"
+    source_readings:
+      - sections/section-050/module-03/course-01-user-events.md
+    prompt: "Which setting lists the event types that Keycloak stores?"
+    options:
+      - id: a
+        text: "eventsListeners"
+        explanation: "Not correct. That list names the listeners that receive events."
+      - id: b
+        text: "eventsExpiration"
+        explanation: "Not correct. That sets how many seconds events are kept."
+      - id: c
+        text: "enabledEventTypes"
+        explanation: "Correct. The list names the types, such as LOGIN and LOGIN_ERROR."
+      - id: d
+        text: "adminEventsEnabled"
+        explanation: "Not correct. That turns on admin events."
+    correct_option: c
+    explanation: "Correct. The list names the types, such as LOGIN and LOGIN_ERROR."
+
+  - id: ats089-050-q23
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Turn on user events and choose the event types"
+    source_readings:
+      - sections/section-050/module-03/course-01-user-events.md
+    prompt: "What does eventsExpiration=0 mean?"
+    options:
+      - id: a
+        text: "Stored events are kept for ever."
+        explanation: "Correct. A value of zero means no expiry, so the table grows without limit."
+      - id: b
+        text: "Events are deleted at once."
+        explanation: "Not correct. Zero does not delete events."
+      - id: c
+        text: "User events are turned off."
+        explanation: "Not correct. eventsEnabled controls that."
+      - id: d
+        text: "Events are kept for one day."
+        explanation: "Not correct. The unit is seconds and zero means no expiry."
+    correct_option: a
+    explanation: "Correct. A value of zero means no expiry, so the table grows without limit."
+
+  - id: ats089-050-q24
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Read admin events and their representation"
+    source_readings:
+      - sections/section-050/module-03/course-02-admin-events.md
+    prompt: "Which kcadm call lists the changes administrators made in a realm?"
+    options:
+      - id: a
+        text: "kcadm get events -r inventory"
+        explanation: "Not correct. That lists user events."
+      - id: b
+        text: "kcadm get events/config -r inventory"
+        explanation: "Not correct. That reads the configuration."
+      - id: c
+        text: "kcadm get users -r inventory"
+        explanation: "Not correct. That lists users."
+      - id: d
+        text: "kcadm get admin-events -r inventory"
+        explanation: "Correct. Admin events are a separate list from user events."
+    correct_option: d
+    explanation: "Correct. Admin events are a separate list from user events."
+
+  - id: ats089-050-q25
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read admin events and their representation"
+    source_readings:
+      - sections/section-050/module-03/course-02-admin-events.md
+    prompt: "An admin event for a created user has no representation field. What is the likely cause?"
+    options:
+      - id: a
+        text: "The user was created by a client, not an administrator."
+        explanation: "Not correct. The event would not exist at all."
+      - id: b
+        text: "adminEventsDetailsEnabled is off."
+        explanation: "Correct. Without details, Keycloak stores the event but not the request body."
+      - id: c
+        text: "The user events are off."
+        explanation: "Not correct. Admin events do not depend on user events."
+      - id: d
+        text: "The operationType is DELETE."
+        explanation: "Not correct. The event is for a created user."
+    correct_option: b
+    explanation: "Correct. Without details, Keycloak stores the event but not the request body."
+
+  - id: ats089-050-q26
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Read admin events and their representation"
+    source_readings:
+      - sections/section-050/module-03/course-02-admin-events.md
+    prompt: "Why turn on admin event details only after a decision?"
+    options:
+      - id: a
+        text: "Details make Keycloak refuse changes."
+        explanation: "Not correct. Details do not block changes."
+      - id: b
+        text: "Details turn off user events."
+        explanation: "Not correct. The settings are independent."
+      - id: c
+        text: "The representation can hold personal data from the request body."
+        explanation: "Correct. Details store the JSON of the changed object."
+      - id: d
+        text: "Details are shown to every user of the realm."
+        explanation: "Not correct. Admin events are read through the Admin API."
+    correct_option: c
+    explanation: "Correct. Details store the JSON of the changed object."
+
+  - id: ats089-050-q27
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Find the cause of a failed sign-in in an event"
+    source_readings:
+      - sections/section-050/module-03/course-03-finding-a-failed-sign-in.md
+    prompt: "A password request returns invalid_grant. Where is the exact cause found?"
+    options:
+      - id: a
+        text: "In the error field of the LOGIN_ERROR event."
+        explanation: "Correct. The response hides the cause on purpose, and the event names it."
+      - id: b
+        text: "In the HTTP status code of the response."
+        explanation: "Not correct. The status code does not name the cause."
+      - id: c
+        text: "In the realm name."
+        explanation: "Not correct. The realm name has no information about the failure."
+      - id: d
+        text: "In the access token."
+        explanation: "Not correct. No token is issued for a failed request."
+    correct_option: a
+    explanation: "Correct. The response hides the cause on purpose, and the event names it."
+
+  - id: ats089-050-q28
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Find the cause of a failed sign-in in an event"
+    source_readings:
+      - sections/section-050/module-03/course-03-finding-a-failed-sign-in.md
+    prompt: "A LOGIN_ERROR event shows the error user_disabled. What is the fix?"
+    options:
+      - id: a
+        text: "Reset the password."
+        explanation: "Not correct. The password is not the cause."
+      - id: b
+        text: "Create a new client."
+        explanation: "Not correct. The client is not the cause."
+      - id: c
+        text: "Turn on admin events."
+        explanation: "Not correct. That records changes and does not fix the user."
+      - id: d
+        text: "Enable the user."
+        explanation: "Correct. The error names the cause, so the fix targets the user, not the password."
+    correct_option: d
+    explanation: "Correct. The error names the cause, so the fix targets the user, not the password."
+
+  - id: ats089-050-q29
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain event listeners and the jboss-logging listener"
+    source_readings:
+      - sections/section-050/module-03/course-04-retention-listeners-and-server-logs.md
+    prompt: "Which listener writes events to the server log by default?"
+    options:
+      - id: a
+        text: "email"
+        explanation: "Not correct. That listener sends messages to users."
+      - id: b
+        text: "jboss-logging"
+        explanation: "Correct. It writes errors at the warning level and successes at the debug level."
+      - id: c
+        text: "database"
+        explanation: "Not correct. That is not the default listener name."
+      - id: d
+        text: "syslog"
+        explanation: "Not correct. That is not a default listener."
+    correct_option: b
+    explanation: "Correct. It writes errors at the warning level and successes at the debug level."
+
+  - id: ats089-050-q30
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Explain event listeners and the jboss-logging listener"
+    source_readings:
+      - sections/section-050/module-03/course-04-retention-listeners-and-server-logs.md
+    prompt: "An administrator sets eventsListeners to [\"email\"]. What changes?"
+    options:
+      - id: a
+        text: "Nothing, because jboss-logging cannot be removed."
+        explanation: "Not correct. It can be removed from the list."
+      - id: b
+        text: "The list adds email and keeps the others."
+        explanation: "Not correct. Setting the field replaces the value."
+      - id: c
+        text: "The jboss-logging listener no longer runs, because setting the list replaces it."
+        explanation: "Correct. The whole list is replaced, so every listener to keep must be named."
+      - id: d
+        text: "Events are no longer stored in the database."
+        explanation: "Not correct. Storing depends on eventsEnabled."
+    correct_option: c
+    explanation: "Correct. The whole list is replaced, so every listener to keep must be named."

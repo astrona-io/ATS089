@@ -1,0 +1,52 @@
+# Delegate Administration Of Organizations
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-capstone-060"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1 and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-capstone-060-setup"
+      description: "Creates the realm inventory with the organizations acme and globex, desk with realm-admin, lead without roles and the users alice and bob"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+validation:
+  scripts:
+    - name: "validate-desk"
+      description: "Confirms desk lost realm-admin and has read access only"
+      type: "file"
+      source: "validation/validate-desk.sh"
+    - name: "validate-lead"
+      description: "Confirms lead can manage organizations and cannot create users"
+      type: "file"
+      source: "validation/validate-lead.sh"
+    - name: "validate-members"
+      description: "Confirms alice is in acme and bob is in globex"
+      type: "file"
+      source: "validation/validate-members.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - nicolaka/netshoot:v0.13
+      - quay.io/keycloak/keycloak:26.8.1

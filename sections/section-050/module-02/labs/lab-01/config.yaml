@@ -1,0 +1,52 @@
+# Set Session And Token Limits And Revoke Offline Access
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-089-lab-050-02"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "deploy-keycloak"
+      description: "Deploys Keycloak 26.8.1 and the tester pod, and waits until the administrator can sign in"
+      type: "file"
+      source: "bootstrap/01-deploy-keycloak.sh"
+    - name: "ats-089-lab-050-02-setup"
+      description: "Creates the realm inventory, alice, bob, the clients inventory-cli and inventory-batch, and one offline session for each user"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+testing:
+  init:
+    - name: "wait-for-keycloak"
+      description: "Waits until kcadm.sh can sign in before the reference solution runs"
+      type: "file"
+      source: "testing/wait-for-keycloak.sh"
+    - name: "reference-solution"
+      description: "The remediation a correct learner performs; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+validation:
+  scripts:
+    - name: "validate-realm-limits"
+      description: "Confirms the SSO session limits and the offline session limits of inventory"
+      type: "file"
+      source: "validation/validate-realm-limits.sh"
+    - name: "validate-token-lifespans"
+      description: "Confirms access tokens live 120 seconds for inventory-cli and 600 seconds for inventory-batch"
+      type: "file"
+      source: "validation/validate-token-lifespans.sh"
+    - name: "validate-offline-sessions"
+      description: "Confirms bob has no offline session and alice still has one"
+      type: "file"
+      source: "validation/validate-offline-sessions.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - nicolaka/netshoot:v0.13
+      - quay.io/keycloak/keycloak:26.8.1

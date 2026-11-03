@@ -1,0 +1,383 @@
+# Knowledge check for section 060. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+id: ats089-060
+course_id: ATS089
+exam_code: KEYCLOAK
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+scope:
+  type: section
+  id: section-060
+  title: "Organizations And Administration Delegation"
+placement:
+  position: after
+  reading: sections/section-060/capstone/labs/lab-01/question.md
+questions:
+  - id: ats089-060-q01
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Enable organizations and create one"
+    source_readings:
+      - sections/section-060/module-01/course-01-enabling-and-creating-organizations.md
+    prompt: "Which realm field turns organizations on?"
+    options:
+      - id: a
+        text: "organizationsEnabled"
+        explanation: "Correct. The switch is per realm."
+      - id: b
+        text: "organizationsAllowed"
+        explanation: "Not correct. No realm field has this name."
+      - id: c
+        text: "registrationAllowed"
+        explanation: "Not correct. This field controls self-registration."
+      - id: d
+        text: "rememberMe"
+        explanation: "Not correct. This field shows the remember me checkbox."
+    correct_option: a
+    explanation: "Correct. The switch is per realm."
+
+  - id: ats089-060-q02
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Enable organizations and create one"
+    source_readings:
+      - sections/section-060/module-01/course-01-enabling-and-creating-organizations.md
+    prompt: "An organization has the alias acme. What can be done with the alias afterwards?"
+    options:
+      - id: a
+        text: "It can be renamed with an update."
+        explanation: "Not correct. The alias cannot be changed after it is set."
+      - id: b
+        text: "It can be used in scopes, and it cannot be changed."
+        explanation: "Correct. The alias is the stable identifier. To use another one, recreate the organization."
+      - id: c
+        text: "It must be the same as the id."
+        explanation: "Not correct. The id is a generated UUID."
+      - id: d
+        text: "It is used in the path of member calls."
+        explanation: "Not correct. Paths use the id."
+    correct_option: b
+    explanation: "Correct. The alias is the stable identifier. To use another one, recreate the organization."
+
+  - id: ats089-060-q03
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Describe domains and attributes of an organization"
+    source_readings:
+      - sections/section-060/module-01/course-02-domains-and-attributes.md
+    prompt: "Which domain matches the address user@eu.acme.example?"
+    options:
+      - id: a
+        text: "acme.example"
+        explanation: "Not correct. An exact domain matches only that name."
+      - id: b
+        text: "*.example.com"
+        explanation: "Not correct. It is a different base domain."
+      - id: c
+        text: "*.acme.example"
+        explanation: "Correct. A wildcard domain matches the base domain and its subdomains."
+      - id: d
+        text: "eu.example"
+        explanation: "Not correct. It is a different name."
+    correct_option: c
+    explanation: "Correct. A wildcard domain matches the base domain and its subdomains."
+
+  - id: ats089-060-q04
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Describe domains and attributes of an organization"
+    source_readings:
+      - sections/section-060/module-01/course-02-domains-and-attributes.md
+    prompt: "An organization already has the attribute customer-number. An update sets attributes to a map with only region. What happens?"
+    options:
+      - id: a
+        text: "The map is replaced, so customer-number is gone."
+        explanation: "Correct. Setting attributes overwrites the whole map."
+      - id: b
+        text: "region is added and customer-number stays."
+        explanation: "Not correct. The update replaces the map."
+      - id: c
+        text: "The update is refused."
+        explanation: "Not correct. Keycloak accepts the update."
+      - id: d
+        text: "Both attributes are removed."
+        explanation: "Not correct. Only the attribute you did not send is removed."
+    correct_option: a
+    explanation: "Correct. Setting attributes overwrites the whole map."
+
+  - id: ats089-060-q05
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Add and remove organization members"
+    source_readings:
+      - sections/section-060/module-01/course-03-members.md
+    prompt: "What is an unmanaged member?"
+    options:
+      - id: a
+        text: "An account that exists only inside the organization."
+        explanation: "Not correct. That is a managed member."
+      - id: b
+        text: "A user without a password."
+        explanation: "Not correct. Membership type does not depend on credentials."
+      - id: c
+        text: "A user in the master realm."
+        explanation: "Not correct. Members belong to the realm of the organization."
+      - id: d
+        text: "A realm user who is linked to the organization afterwards and stays in the realm when removed."
+        explanation: "Correct. Only a managed account is removed with the organization."
+    correct_option: d
+    explanation: "Correct. Only a managed account is removed with the organization."
+
+  - id: ats089-060-q06
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Add and remove organization members"
+    source_readings:
+      - sections/section-060/module-01/course-03-members.md
+    prompt: "Which body does the call that adds a member send?"
+    options:
+      - id: a
+        text: "A JSON object with the username."
+        explanation: "Not correct. The body is a plain string."
+      - id: b
+        text: "The user id as a JSON string."
+        explanation: "Correct. The body is the id in quotes."
+      - id: c
+        text: "The alias of the organization."
+        explanation: "Not correct. The alias is not the member."
+      - id: d
+        text: "No body, only the path."
+        explanation: "Not correct. The user id must be in the body."
+    correct_option: b
+    explanation: "Correct. The body is the id in quotes."
+
+  - id: ats089-060-q07
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Read the organization claim in a token"
+    source_readings:
+      - sections/section-060/module-01/course-04-the-organization-claim.md
+    prompt: "A client wants only the organization acme in the token of a user who belongs to two organizations. Which scope does it request?"
+    options:
+      - id: a
+        text: "organization:*"
+        explanation: "Not correct. That maps every organization."
+      - id: b
+        text: "organization with organization:acme"
+        explanation: "Not correct. Mixing forms is an error."
+      - id: c
+        text: "organization:acme"
+        explanation: "Correct. This form maps the named organization."
+      - id: d
+        text: "acme"
+        explanation: "Not correct. It is not a scope of the feature."
+    correct_option: c
+    explanation: "Correct. This form maps the named organization."
+
+  - id: ats089-060-q08
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Read the organization claim in a token"
+    source_readings:
+      - sections/section-060/module-01/course-04-the-organization-claim.md
+    prompt: "A token request uses organization:globex for a user who is not a member of globex. What happens?"
+    options:
+      - id: a
+        text: "Keycloak rejects the request."
+        explanation: "Correct. A request for an organization the user is not in is rejected."
+      - id: b
+        text: "The claim is empty."
+        explanation: "Not correct. The request is rejected, not answered with an empty claim."
+      - id: c
+        text: "The user becomes a member."
+        explanation: "Not correct. A scope never adds members."
+      - id: d
+        text: "The claim holds every organization."
+        explanation: "Not correct. That needs organization:*."
+    correct_option: a
+    explanation: "Correct. A request for an organization the user is not in is rejected."
+
+  - id: ats089-060-q09
+    type: single_choice
+    difficulty: beginner
+    learning_objective: "Name the kinds of realm administrator"
+    source_readings:
+      - sections/section-060/module-02/course-01-who-can-administer-a-realm.md
+    prompt: "Which role makes a user a realm administrator of one realm?"
+    options:
+      - id: a
+        text: "admin of the master realm"
+        explanation: "Not correct. That makes a server administrator."
+      - id: b
+        text: "realm-admin of the client realm-management"
+        explanation: "Correct. It gives full access to that realm only."
+      - id: c
+        text: "manage-users"
+        explanation: "Not correct. That allows managing users only."
+      - id: d
+        text: "view-realm"
+        explanation: "Not correct. That allows reading settings only."
+    correct_option: b
+    explanation: "Correct. It gives full access to that realm only."
+
+  - id: ats089-060-q10
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Name the kinds of realm administrator"
+    source_readings:
+      - sections/section-060/module-02/course-01-who-can-administer-a-realm.md
+    prompt: "Where do the administrator roles of a realm live?"
+    options:
+      - id: a
+        text: "In the realm roles list."
+        explanation: "Not correct. They are not realm roles."
+      - id: b
+        text: "In the master realm only."
+        explanation: "Not correct. Every realm has the client."
+      - id: c
+        text: "In the built-in client realm-management as client roles."
+        explanation: "Correct. They are client roles, not realm roles."
+      - id: d
+        text: "In the account client."
+        explanation: "Not correct. The account client holds user roles."
+    correct_option: c
+    explanation: "Correct. They are client roles, not realm roles."
+
+  - id: ats089-060-q11
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Choose realm-management roles for a task"
+    source_readings:
+      - sections/section-060/module-02/course-02-the-realm-management-roles.md
+    prompt: "Which roles does a help desk need to find users and reset passwords?"
+    options:
+      - id: a
+        text: "view-events and manage-events"
+        explanation: "Not correct. These are events roles."
+      - id: b
+        text: "realm-admin"
+        explanation: "Not correct. It works but gives far more than needed."
+      - id: c
+        text: "impersonation"
+        explanation: "Not correct. It signs in as the user, which is not needed."
+      - id: d
+        text: "query-users, view-users and manage-users"
+        explanation: "Correct. A person who manages users also needs to find and read them."
+    correct_option: d
+    explanation: "Correct. A person who manages users also needs to find and read them."
+
+  - id: ats089-060-q12
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Choose realm-management roles for a task"
+    source_readings:
+      - sections/section-060/module-02/course-02-the-realm-management-roles.md
+    prompt: "Why is realm-admin a poor choice for a help desk?"
+    options:
+      - id: a
+        text: "It includes every other role."
+        explanation: "Correct. The smallest set of roles does the job."
+      - id: b
+        text: "It cannot reset passwords."
+        explanation: "Not correct. It can, and much more."
+      - id: c
+        text: "It works only in the master realm."
+        explanation: "Not correct. It works in the realm where it is assigned."
+      - id: d
+        text: "It expires after one hour."
+        explanation: "Not correct. Roles do not expire."
+    correct_option: a
+    explanation: "Correct. The smallest set of roles does the job."
+
+  - id: ats089-060-q13
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Prove an administrator with a token"
+    source_readings:
+      - sections/section-060/module-02/course-03-proving-what-an-administrator-can-do.md
+    prompt: "A user who holds manage-users sends POST users with the body {}. Which status is expected?"
+    options:
+      - id: a
+        text: "403"
+        explanation: "Not correct. 403 means the role is missing."
+      - id: b
+        text: "400"
+        explanation: "Correct. The call is allowed and the data is invalid."
+      - id: c
+        text: "200"
+        explanation: "Not correct. A write with empty data does not succeed."
+      - id: d
+        text: "401"
+        explanation: "Not correct. 401 means the token is missing or expired."
+    correct_option: b
+    explanation: "Correct. The call is allowed and the data is invalid."
+
+  - id: ats089-060-q14
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Prove an administrator with a token"
+    source_readings:
+      - sections/section-060/module-02/course-03-proving-what-an-administrator-can-do.md
+    prompt: "An administrator receives manage-users after a token was issued. The old token still gets 403. Why?"
+    options:
+      - id: a
+        text: "The role needs a server restart."
+        explanation: "Not correct. No restart is needed."
+      - id: b
+        text: "The user must be created again."
+        explanation: "Not correct. The user is unchanged."
+      - id: c
+        text: "The token holds the roles of the time it was issued."
+        explanation: "Correct. Request a new token after changing roles."
+      - id: d
+        text: "403 means the password is wrong."
+        explanation: "Not correct. A wrong password gives no token."
+    correct_option: c
+    explanation: "Correct. Request a new token after changing roles."
+
+  - id: ats089-060-q15
+    type: single_choice
+    difficulty: intermediate
+    learning_objective: "Explain fine-grained admin permissions"
+    source_readings:
+      - sections/section-060/module-02/course-04-fine-grained-permissions-and-limits.md
+    prompt: "What does fine-grained admin permissions add to roles?"
+    options:
+      - id: a
+        text: "A way to limit realm-admin."
+        explanation: "Not correct. A realm administrator is never limited by it."
+      - id: b
+        text: "A replacement that disables roles."
+        explanation: "Not correct. It is an alternative, not a replacement."
+      - id: c
+        text: "Faster token requests."
+        explanation: "Not correct. It does not change tokens."
+      - id: d
+        text: "Permissions on parts of a resource type, such as the members of one group."
+        explanation: "Correct. Roles apply to the whole resource type."
+    correct_option: d
+    explanation: "Correct. Roles apply to the whole resource type."
+
+  - id: ats089-060-q16
+    type: single_choice
+    difficulty: advanced
+    learning_objective: "Explain fine-grained admin permissions"
+    source_readings:
+      - sections/section-060/module-02/course-04-fine-grained-permissions-and-limits.md
+    prompt: "A delegated administrator has view-users and also a permission that allows view on one group. What is enforced?"
+    options:
+      - id: a
+        text: "The role wins, so the administrator can view all users."
+        explanation: "Correct. A wide role skips the fine-grained check."
+      - id: b
+        text: "Only the group is visible."
+        explanation: "Not correct. The role skips the check."
+      - id: c
+        text: "Access is refused because they conflict."
+        explanation: "Not correct. They do not conflict."
+      - id: d
+        text: "Only users in the master realm are visible."
+        explanation: "Not correct. Realms are separate."
+    correct_option: a
+    explanation: "Correct. A wide role skips the fine-grained check."

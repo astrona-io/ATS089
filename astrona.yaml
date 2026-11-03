@@ -104,8 +104,11 @@ modules:
         title: "Groups, Disabling Users And Impersonation"
         path: sections/section-010/module-01/course-03-groups-and-impersonation.md
       - type: reading
+        title: "Searching Users And Bulk Work With kcadm"
+        path: sections/section-010/module-01/course-04-searching-users-and-bulk-work.md
+      - type: reading
         title: Summary
-        path: sections/section-010/module-01/course-04-summary.md
+        path: sections/section-010/module-01/course-05-summary.md
 
       - type: reading
         title: Question
@@ -394,6 +397,274 @@ modules:
       - type: quiz
         title: "Knowledge Check: User Federation And Identity Brokering"
         path: sections/section-040/quiz.yaml
+        pass_score: 70
+
+  - id: module-050
+    title: "Realm Settings, Sessions And Auditing"
+    description: >
+      The settings that shape a realm's sign-in experience and how long users
+      stay signed in: login options, email, languages and themes, session and
+      token lifespans, offline access, and the user and administration events
+      that record what happened.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-050/README.md
+
+      - type: reading
+        title: "Configure Login, Email And Display Settings Of A Realm"
+        path: sections/section-050/module-01/course.md
+      - type: reading
+        title: "Login Options Of A Realm"
+        path: sections/section-050/module-01/course-01-login-options-of-a-realm.md
+      - type: reading
+        title: "Email Settings And Email Verification"
+        path: sections/section-050/module-01/course-02-email-settings-and-verification.md
+      - type: reading
+        title: "Localization And Themes"
+        path: sections/section-050/module-01/course-03-localization-and-themes.md
+      - type: reading
+        title: Question
+        path: sections/section-050/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Configure Realm Login, Email And Languages Lab"
+        path: sections/section-050/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 20m
+        topic: realm-settings
+        task_kind: build
+        tags: [realm-settings, login-options, smtp, localization, kcadm]
+        learning_goals:
+          - Turn on registration, forgotten password and remember me from the terminal
+          - Configure the SMTP server and the supported languages of a realm without replacing other values
+          - Prove each setting by reading the realm back and requesting the sign-in page
+        resources:
+          - name: "Server Administration Guide: realm settings"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#configuring-realms
+          - name: "Server Administration Guide: configuring email for a realm"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_email
+          - name: "Server Administration Guide: themes and localization"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_themes
+      - type: reading
+        title: "Reading And Changing The Realm Representation"
+        path: sections/section-050/module-01/course-04-reading-and-changing-the-realm-representation.md
+      - type: reading
+        title: Summary
+        path: sections/section-050/module-01/course-05-summary.md
+
+      - type: reading
+        title: "Control Sessions, Token Lifespans And Offline Access"
+        path: sections/section-050/module-02/course.md
+      - type: reading
+        title: "SSO Session Settings"
+        path: sections/section-050/module-02/course-01-sso-session-settings.md
+      - type: reading
+        title: "Token Lifespans"
+        path: sections/section-050/module-02/course-02-token-lifespans.md
+      - type: reading
+        title: "Offline Tokens"
+        path: sections/section-050/module-02/course-03-offline-tokens.md
+      - type: reading
+        title: Question
+        path: sections/section-050/module-02/labs/lab-01/question.md
+      - type: lab
+        title: "Set Session And Token Limits And Revoke Offline Access Lab"
+        path: sections/section-050/module-02/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: sessions
+        task_kind: build
+        tags: [sessions, token-lifespan, offline-tokens, realm-settings, kcadm]
+        learning_goals:
+          - Set the SSO session limits and the access token lifespan of a realm and override the lifespan for one client
+          - Revoke one user's offline session without ending anyone else's
+          - Prove the lifespans from the exp and iat claims of real tokens
+        resources:
+          - name: "Server Administration Guide: session and token timeouts"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_timeouts
+          - name: "Server Administration Guide: offline access"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_offline-access
+          - name: "Server Administration Guide: managing user sessions"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#managing-user-sessions
+      - type: reading
+        title: "Administering Sessions"
+        path: sections/section-050/module-02/course-04-administering-sessions.md
+      - type: reading
+        title: Summary
+        path: sections/section-050/module-02/course-05-summary.md
+
+      - type: reading
+        title: "Record And Read Events And Admin Events"
+        path: sections/section-050/module-03/course.md
+      - type: reading
+        title: "User Events"
+        path: sections/section-050/module-03/course-01-user-events.md
+      - type: reading
+        title: "Admin Events"
+        path: sections/section-050/module-03/course-02-admin-events.md
+      - type: reading
+        title: "Finding A Failed Sign-In"
+        path: sections/section-050/module-03/course-03-finding-a-failed-sign-in.md
+      - type: reading
+        title: Question
+        path: sections/section-050/module-03/labs/lab-01/question.md
+      - type: lab
+        title: "Turn On Events And Find A Failed Sign-In Lab"
+        path: sections/section-050/module-03/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 20m
+        topic: events
+        task_kind: build
+        tags: [events, admin-events, audit, troubleshooting, kcadm]
+        learning_goals:
+          - Turn on user events and admin events and choose what to store
+          - Find the cause of a failed sign-in in the error field of an event
+          - Read an administrator change and its representation from an admin event
+        resources:
+          - name: "Server Administration Guide: auditing and events"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#configuring-auditing-to-track-events
+      - type: reading
+        title: "Retention, Listeners And Server Logs"
+        path: sections/section-050/module-03/course-04-retention-listeners-and-server-logs.md
+      - type: reading
+        title: Summary
+        path: sections/section-050/module-03/course-05-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-050/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Fix A Realm That Locks Users Out Capstone"
+        path: sections/section-050/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 35m
+        topic: realm-settings
+        task_kind: troubleshooting
+        tags: [realm-settings, sessions, token-lifespan, events, troubleshooting, kcadm]
+        learning_goals:
+          - Find why a user is refused by recording and reading a LOGIN_ERROR event
+          - Repair login options, SSO session limits and the token lifespan of a realm without recreating it
+          - Prove the repair with tokens for both users and the realm settings
+        resources:
+          - name: "Server Administration Guide: auditing and events"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#configuring-auditing-to-track-events
+          - name: "Server Administration Guide: session and token timeouts"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_timeouts
+      - type: quiz
+        title: "Knowledge Check: Realm Settings, Sessions And Auditing"
+        path: sections/section-050/quiz.yaml
+        pass_score: 70
+
+  - id: module-060
+    title: "Organizations And Administration Delegation"
+    description: >
+      Grouping the users of a realm into organizations, and delegating
+      administration with realm-management roles so that each person gets only
+      the rights the work needs.
+
+    content:
+      - type: reading
+        title: "Section Overview"
+        path: sections/section-060/README.md
+
+      - type: reading
+        title: "Group Users Into Organizations"
+        path: sections/section-060/module-01/course.md
+      - type: reading
+        title: "Enabling And Creating Organizations"
+        path: sections/section-060/module-01/course-01-enabling-and-creating-organizations.md
+      - type: reading
+        title: "Domains And Attributes"
+        path: sections/section-060/module-01/course-02-domains-and-attributes.md
+      - type: reading
+        title: "Members"
+        path: sections/section-060/module-01/course-03-members.md
+      - type: reading
+        title: "Question"
+        path: sections/section-060/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Create Organizations And Add Members Lab"
+        path: sections/section-060/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: organizations
+        task_kind: build
+        tags: [organizations, members, domains, kcadm]
+        learning_goals:
+          - Turn on organizations and create organizations with domains
+          - Add users as members and keep each customer separate
+          - Check the result with the Admin API
+        resources:
+          - name: "Server Administration Guide: managing organizations"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_managing_organizations_
+      - type: reading
+        title: "The Organization Claim"
+        path: sections/section-060/module-01/course-04-the-organization-claim.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-060/module-01/course-05-summary.md
+
+      - type: reading
+        title: "Delegate Administration With Realm-Management Roles"
+        path: sections/section-060/module-02/course.md
+      - type: reading
+        title: "Who Can Administer A Realm"
+        path: sections/section-060/module-02/course-01-who-can-administer-a-realm.md
+      - type: reading
+        title: "The Realm-Management Roles"
+        path: sections/section-060/module-02/course-02-the-realm-management-roles.md
+      - type: reading
+        title: "Proving What An Administrator Can Do"
+        path: sections/section-060/module-02/course-03-proving-what-an-administrator-can-do.md
+      - type: reading
+        title: "Question"
+        path: sections/section-060/module-02/labs/lab-01/question.md
+      - type: lab
+        title: "Give A Help Desk Least-Privilege Access Lab"
+        path: sections/section-060/module-02/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 25m
+        topic: admin-delegation
+        task_kind: build
+        tags: [realm-management, roles, delegation, admin-api, kcadm]
+        learning_goals:
+          - Assign the smallest set of realm-management roles for a help desk and an auditor
+          - Prove the rights with tokens and the status codes of the Admin API
+          - Check that nobody holds realm-admin
+        resources:
+          - name: "Server Administration Guide: dedicated realm admin consoles"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_per_realm_admin_permissions
+      - type: reading
+        title: "Fine-Grained Permissions And Limits"
+        path: sections/section-060/module-02/course-04-fine-grained-permissions-and-limits.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-060/module-02/course-05-summary.md
+
+      - type: reading
+        title: "Question"
+        path: sections/section-060/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Delegate Administration Of Organizations Capstone"
+        path: sections/section-060/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 40m
+        topic: admin-delegation
+        task_kind: troubleshooting
+        tags: [organizations, realm-management, delegation, least-privilege, admin-api]
+        learning_goals:
+          - Replace realm-admin with read-only roles for a support person
+          - Give a team lead the roles to manage organizations without managing users
+          - Repair an organization membership and prove all of it with tokens
+        resources:
+          - name: "Server Administration Guide: managing organizations"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_managing_organizations_
+          - name: "Server Administration Guide: dedicated realm admin consoles"
+            url: https://www.keycloak.org/docs/latest/server_admin/index.html#_per_realm_admin_permissions
+      - type: quiz
+        title: "Knowledge Check: Organizations And Administration Delegation"
+        path: sections/section-060/quiz.yaml
         pass_score: 70
       - type: quiz
         title: "Final Domain Quiz"
