@@ -13,7 +13,7 @@
 training:
   id: ATS089
   title: "Keycloak: Realm Administration & Identity Management"
-  maturity: draft
+  maturity: alpha
   description: >
     Training material covering the Realm Administration & Identity
     Management domain of the Keycloak training path: the user lifecycle and
